@@ -1,0 +1,3 @@
+[submodule "hsky-vexu-core"]
+	path = hsky-vexu-core
+	url = https://github.com/NEURoboticsClub/hsky-vexu-core.git
