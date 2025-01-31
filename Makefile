@@ -9,8 +9,8 @@ CXXEXTS:=cpp c++ cc
 ROOT=.
 FWDIR:=$(ROOT)/firmware
 BINDIR=$(ROOT)/bin
-SRCDIR=$(ROOT)/src$(ROOT)/hsky-vexu-core/src
-INCDIR=$(ROOT)/include$(ROOT)/hsky-vexu-core/include
+SRCDIR=$(ROOT)/src
+INCDIR=$(ROOT)/include
 
 WARNFLAGS+=
 EXTRA_CFLAGS=

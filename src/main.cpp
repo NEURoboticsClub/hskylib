@@ -1,21 +1,21 @@
 #include "main.h"
-#include <iostream>
+// #include <iostream>
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
+// /**
+//  * A callback function for LLEMU's center button.
+//  *
+//  * When this callback is fired, it will toggle line 2 of the LCD text between
+//  * "I was pressed!" and nothing.
+//  */
+// void on_center_button() {
+// 	static bool pressed = false;
+// 	pressed = !pressed;
+// 	if (pressed) {
+// 		pros::lcd::set_text(2, "I was pressed!");
+// 	} else {
+// 		pros::lcd::clear_line(2);
+// 	}
+// }
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -79,8 +79,8 @@ void opcontrol() {
 	// UpdateTuningDisplay(thing);
 	printf("starting opcontrol");
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_mg({4,17}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({15,18}); //-2  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+	pros::MotorGroup left_mg({-15,-18}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup right_mg({4,17}); //-2  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 	left_mg.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 	right_mg.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
@@ -89,11 +89,11 @@ void opcontrol() {
 	printf("Test");
 
 	while (true) {
-        int leftSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * 600;
-        int rightSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * 600;
+        int leftSpeed = ((float)master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * 600;
+        int rightSpeed = ((float)master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * 600;
 
-        rightMotorGroup.move(rightSpeed);
-        leftMotorGroup.move(leftSpeed);
+        right_mg.move(rightSpeed);
+        left_mg.move(leftSpeed);
 		printf("%d", leftSpeed);
 
         pros::delay(20);
