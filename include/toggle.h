@@ -14,6 +14,7 @@ public:
     Toggle(pros::Controller& ctrl, pros::controller_digital_e_t button);
     void reset();
     bool getCurrentState();
+    void setCurrentState(bool state);
     void update();
 };
 

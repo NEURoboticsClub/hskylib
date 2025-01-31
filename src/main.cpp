@@ -103,19 +103,19 @@ void opcontrol() {
 	TankDrive tankdrivefku(left_mg, right_mg, master, pros::E_MOTOR_BRAKE_COAST, pros::E_MOTOR_GEAR_600);
 	tankdrivefku.initialize();
 
-	pros::MotorGroup intake_left_mg({16}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup intake_right_mg({-9});
+	// pros::MotorGroup intake_left_mg({16}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	// pros::MotorGroup intake_right_mg({-9});
 
-	Transport intake(intake_left_mg,
-        intake_right_mg,
-        master,
-        pros::E_MOTOR_BRAKE_COAST,
-        pros::E_MOTOR_GEAR_600,
-        pros::E_CONTROLLER_DIGITAL_L1,
-        pros::E_CONTROLLER_DIGITAL_L2,
-        0.5);
+	// Transport intake(intake_left_mg,
+    //     intake_right_mg,
+    //     master,
+    //     pros::E_MOTOR_BRAKE_COAST,
+    //     pros::E_MOTOR_GEAR_600,
+    //     pros::E_CONTROLLER_DIGITAL_L1,
+    //     pros::E_CONTROLLER_DIGITAL_L2,
+    //     0.5);
 	
-	intake.initialize();
+	// intake.initialize();
 
 	pros::MotorGroup lift_left_mg({8}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 	pros::MotorGroup lift_right_mg({-14});

@@ -21,8 +21,8 @@ void TankDrive::tankDrive() {
         int leftSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
         int rightSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
 
-        rightMotorGroup.move_velocity(rightSpeed);
-        leftMotorGroup.move_velocity(leftSpeed);
+        rightMotorGroup.move(rightSpeed);
+        leftMotorGroup.move(leftSpeed);
 
         pros::delay(20);
     }
