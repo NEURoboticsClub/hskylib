@@ -1,5 +1,4 @@
 #include "tank_drive.h"
-#include "utils.h"
 
 // constructor
 TankDrive::TankDrive(pros::MotorGroup& leftMotors,
@@ -18,6 +17,18 @@ TankDrive::TankDrive(pros::MotorGroup& leftMotors,
 
 void TankDrive::tankDrive() {
     while (true) {
+        int leftSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
+        int rightSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
+
+        rightMotorGroup.move(rightSpeed);
+        leftMotorGroup.move(leftSpeed);
+
+        pros::delay(20);
+    }
+}
+
+void TankDrive::arcadeDrive() {
+    while (true) {
         int forward = 0.4 * ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
         int turn = 0.4* ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
 
@@ -31,6 +42,15 @@ void TankDrive::tankDrive() {
     }
 }
 
-void TankDrive::initialize() {
-    pros::Task task([this] { tankDrive(); });
+void TankDrive::initialize(DriveStyle driveStyle) {
+    switch (driveStyle) {
+        case ARCADE:
+            pros::Task task([this] { arcadeDrive(); });
+            break;
+        case TANK:
+            pros::Task task([this] { tankDrive(); });
+            break;
+        default:
+            throw INVALID_ARGUMENT;
+    }
 }

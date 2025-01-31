@@ -2,6 +2,7 @@
 #define TANKDRIVE_H
 
 #include "api.h"
+#include "utils.h"
 
 class TankDrive {
 private:
@@ -11,6 +12,7 @@ private:
 
     // main function
     void tankDrive();
+    void arcadeDrive();
 
 public:
     TankDrive(pros::MotorGroup& leftMotors,
@@ -20,7 +22,7 @@ public:
         pros::motor_gearset_e gearset);
 
     // initialize and start the task
-    void initialize();
+    void initialize(DriveStyle driveStyle);
 };
 
 #endif
