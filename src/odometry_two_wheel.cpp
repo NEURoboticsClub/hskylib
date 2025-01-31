@@ -1,7 +1,7 @@
 #include "odometry_two_wheel.h"
 
 OdometryTwoWheel::OdometryTwoWheel(uint8_t leftEncoderPort, uint8_t rightEncoderPort, double dW)
-    : OdometryBase() {
+    : OdometryBase(), dW(dW) {
     pros::Rotation left(leftEncoderPort);
     pros::Rotation right(rightEncoderPort);
     leftEncoder = &left;
@@ -10,7 +10,6 @@ OdometryTwoWheel::OdometryTwoWheel(uint8_t leftEncoderPort, uint8_t rightEncoder
     rightEncoder->reset_position();
     leftEncoderLastPos = 0;
     rightEncoderLastPos = 0;
-    dW = dW;
 }
 
 void OdometryTwoWheel::reset() {

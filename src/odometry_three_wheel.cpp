@@ -1,7 +1,7 @@
 #include "odometry_three_wheel.h"
 
 OdometryThreeWheel::OdometryThreeWheel(uint8_t leftEncoderPort, uint8_t rightEncoderPort, uint8_t centerEncoderPort, double sL, double sR, double sS)
-    : OdometryBase() {
+    : OdometryBase(), sL(sL), sR(sR), sS(sS) {
     pros::Rotation left(leftEncoderPort);
     pros::Rotation right(rightEncoderPort);
     pros::Rotation center(centerEncoderPort);
@@ -14,9 +14,6 @@ OdometryThreeWheel::OdometryThreeWheel(uint8_t leftEncoderPort, uint8_t rightEnc
     leftEncoderLastPos = 0;
     rightEncoderLastPos = 0;
     centerEncoderLastPos = 0;
-    sL = sL;
-    sR = sR;
-    sS = sS;
 }
 
 void OdometryThreeWheel::reset() {
