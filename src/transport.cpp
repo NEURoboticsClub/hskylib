@@ -10,14 +10,13 @@ Transport::Transport(pros::MotorGroup& leftMotors,
     pros::controller_digital_e_t inButton,
     pros::controller_digital_e_t outButton,
     double motorDutyCycle)
-        : inToggle(ctrl, inButton), outToggle(ctrl, outButton) {
+        : inToggle(ctrl, inButton), outToggle(ctrl, outButton), motorDutyCycle(motorDutyCycle) {
             leftMotorGroup.append(leftMotors);
             rightMotorGroup.append(rightMotors);
             leftMotorGroup.set_brake_mode_all(brakeMode);
             rightMotorGroup.set_brake_mode_all(brakeMode);
             leftMotorGroup.set_gearing_all(gearset);
             rightMotorGroup.set_gearing_all(gearset);
-            motorDutyCycle = motorDutyCycle;
 }
 
 void Transport::moveIn() {

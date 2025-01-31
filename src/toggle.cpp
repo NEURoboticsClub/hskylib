@@ -3,8 +3,7 @@
 // constructor
 Toggle::Toggle(pros::Controller& ctrl,
     pros::controller_digital_e_t button)
-        : ctrl(ctrl) {
-            button = button;
+        : ctrl(ctrl), button(button) {
             previousButtonState = false;
             currentOnState = false;
 }
@@ -12,6 +11,8 @@ Toggle::Toggle(pros::Controller& ctrl,
 void Toggle::update() {
     bool input = ctrl.get_digital(button);
     printf("input: %d\n", input);
+    printf("button press: %d\n", ctrl.get_digital(button));
+    printf("button: %d\n", button);
     if(input != previousButtonState){
         if(input){
             currentOnState = !currentOnState;
