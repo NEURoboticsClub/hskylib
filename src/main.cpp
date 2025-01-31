@@ -131,9 +131,41 @@ void opcontrol() {
 	
 	lift.initialize();
 
+	// while (true) {
+	// 	pros::delay(50);
+	// }
+	pros::ADIDigitalOut pneumatic('a');
+	pros::Motor arm_motor(20);
+	arm_motor.set_brake_mode(pros::MotorBrake::hold);
 	while (true) {
+		
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+			pneumatic.set_value(true);  // Extend the pneumatic
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+			pneumatic.set_value(false); // Retract the pneumatic
+		}
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+			arm_motor.move_velocity(75);  // Move the arm up
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+			arm_motor.move_velocity(-75); // Move the arm down
+		} else {
+			arm_motor.set_brake_mode(pros::MotorBrake::hold);
+			arm_motor.brake();    // Stop the arm
+		}
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+			lift_left_mg.move_velocity(25);  // Slowly move the lift up
+			lift_right_mg.move_velocity(25);
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			lift_left_mg.move_velocity(-25); // Slowly move the lift down
+			lift_right_mg.move_velocity(-25);
+		} else {
+			lift_left_mg.move_velocity(0);   // Stop the lift
+			lift_right_mg.move_velocity(0);
+		}
 		pros::delay(50);
 	}
+
+
 
 	// while (true) {
 	// 	pros::delay(20);

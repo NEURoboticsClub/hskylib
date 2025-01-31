@@ -18,8 +18,11 @@ TankDrive::TankDrive(pros::MotorGroup& leftMotors,
 
 void TankDrive::tankDrive() {
     while (true) {
-        int leftSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
-        int rightSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
+        int forward = 0.4 * ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
+        int turn = 0.4* ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
+
+        int leftSpeed = forward + turn;
+        int rightSpeed = forward - turn;
 
         rightMotorGroup.move(rightSpeed);
         leftMotorGroup.move(leftSpeed);
