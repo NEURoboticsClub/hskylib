@@ -43,14 +43,9 @@ void TankDrive::arcadeDrive() {
 }
 
 void TankDrive::initialize(DriveStyle driveStyle) {
-    switch (driveStyle) {
-        case ARCADE:
-            pros::Task task([this] { arcadeDrive(); });
-            break;
-        case TANK:
-            pros::Task task([this] { tankDrive(); });
-            break;
-        default:
-            throw INVALID_ARGUMENT;
+    if (driveStyle == ARCADE) {
+        pros::Task task([this] { arcadeDrive(); });
+    } else if (driveStyle == TANK) {
+        pros::Task task([this] { tankDrive(); });
     }
 }
