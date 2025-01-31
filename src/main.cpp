@@ -79,29 +79,61 @@ void opcontrol() {
 	// UpdateTuningDisplay(thing);
 	printf("starting opcontrol");
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_mg({-15,-18}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({4,17}); //-2  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+	pros::MotorGroup left_mg({-1,18,-10}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup right_mg({5,-2,4}); //-2  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-	left_mg.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	right_mg.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	left_mg.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
-	right_mg.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
-	printf("Test");
+	// left_mg.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	// right_mg.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	// left_mg.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
+	// right_mg.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
+	// printf("Test");
 
-	while (true) {
-        int leftSpeed = ((float)master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * 600;
-        int rightSpeed = ((float)master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * 600;
+	// while (true) {
+    //     int leftSpeed = ((float)master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * 600;
+    //     int rightSpeed = ((float)master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * 600;
 
-        right_mg.move(rightSpeed);
-        left_mg.move(leftSpeed);
-		printf("%d", leftSpeed);
+    //     right_mg.move(rightSpeed);
+    //     left_mg.move(leftSpeed);
+	// 	printf("%d", leftSpeed);
 
-        pros::delay(20);
-    }
+    //     pros::delay(20);
+    // }
 
 	// printf("Constructing tank drive");
-	// TankDrive tankdrivefku(left_mg*, right_mg*, master*, pros::E_MOTOR_BRAKE_BRAKE, pros::E_MOTOR_GEAR_100);
-	// tankdrivefku.initialize();
+	TankDrive tankdrivefku(left_mg, right_mg, master, pros::E_MOTOR_BRAKE_COAST, pros::E_MOTOR_GEAR_600);
+	tankdrivefku.initialize();
+
+	pros::MotorGroup intake_left_mg({16}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup intake_right_mg({-9});
+
+	Transport intake(intake_left_mg,
+        intake_right_mg,
+        master,
+        pros::E_MOTOR_BRAKE_COAST,
+        pros::E_MOTOR_GEAR_600,
+        pros::E_CONTROLLER_DIGITAL_L1,
+        pros::E_CONTROLLER_DIGITAL_L2,
+        0.5);
+	
+	intake.initialize();
+
+	pros::MotorGroup lift_left_mg({8}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup lift_right_mg({-14});
+
+	Transport lift(lift_left_mg,
+        lift_right_mg,
+        master,
+        pros::E_MOTOR_BRAKE_COAST,
+        pros::E_MOTOR_GEAR_600,
+        pros::E_CONTROLLER_DIGITAL_R1,
+        pros::E_CONTROLLER_DIGITAL_R2,
+        0.5);
+	
+	lift.initialize();
+
+	while (true) {
+		pros::delay(50);
+	}
 
 	// while (true) {
 	// 	pros::delay(20);

@@ -16,8 +16,8 @@ public:
     TankDrive(pros::MotorGroup& leftMotors,
         pros::MotorGroup& rightMotors,
         pros::Controller& ctrl,
-        pros::MotorBrake brakeMode,
-        pros::MotorGearset gearset);
+        pros::motor_brake_mode_e brakeMode,
+        pros::motor_gearset_e gearset);
 
     // initialize and start the task
     void initialize();

@@ -5,8 +5,8 @@
 TankDrive::TankDrive(pros::MotorGroup& leftMotors,
     pros::MotorGroup& rightMotors,
     pros::Controller& ctrl,
-    pros::MotorBrake brakeMode,
-    pros::MotorGearset gearset)
+    pros::motor_brake_mode_e brakeMode,
+    pros::motor_gearset_e gearset)
         : controller(ctrl) {
             leftMotorGroup.append(leftMotors);
             rightMotorGroup.append(rightMotors);
