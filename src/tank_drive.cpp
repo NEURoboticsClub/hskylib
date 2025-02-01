@@ -125,11 +125,16 @@ void TankDrive::turnAngle(double degrees, int maxVelocity) {
 
 void TankDrive::tankDrive() {
     while (true) {
-        int leftSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
-        int rightSpeed = ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
-
-        rightMotorGroup.move(rightSpeed);
-        leftMotorGroup.move(leftSpeed);
+        float leftInput = (float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
+        float rightInput = (float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0;
+        if (abs(leftInput) > 0.05) {
+            int leftSpeed = leftInput * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
+            leftMotorGroup.move(leftSpeed);
+        }
+        if (abs(rightInput) > 0.05) {
+            int rightSpeed = rightInput * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
+            rightMotorGroup.move(rightSpeed);
+        }
 
         pros::delay(20);
     }
@@ -137,14 +142,25 @@ void TankDrive::tankDrive() {
 
 void TankDrive::arcadeDrive() {
     while (true) {
-        int forward = 0.4 * ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
-        int turn = 0.4* ((float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0) * getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
+        float forwardInput = (float)controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
+        float turnInput = (float)controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0;
 
-        int leftSpeed = forward + turn;
-        int rightSpeed = forward - turn;
+        float leftSpeed = 0.0;
+        float rightSpeed = 0.0;
+        if (forwardInput > 0.05 || forwardInput < -0.05) {
+            leftSpeed += forwardInput * (float)getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
+            rightSpeed += forwardInput * (float)getInputExtremeForGearset((pros::motor_gearset_e) rightMotorGroup.get_gearing());
+        }
+        if (turnInput > 0.05 || turnInput < -0.05) {
+            leftSpeed += turnInput * (float)getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
+            rightSpeed -= turnInput * (float)getInputExtremeForGearset((pros::motor_gearset_e) leftMotorGroup.get_gearing());
+        }
 
-        rightMotorGroup.move(rightSpeed);
-        leftMotorGroup.move(leftSpeed);
+        leftSpeed *= 0.4;
+        rightSpeed *= 0.4;
+
+        rightMotorGroup.move((int)rightSpeed);
+        leftMotorGroup.move((int)leftSpeed);
 
         pros::delay(20);
     }
