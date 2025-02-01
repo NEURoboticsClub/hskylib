@@ -64,7 +64,7 @@ void autonomous() {
 	pros::MotorGroup left_mg({-1,18,-10});
 	pros::MotorGroup right_mg({5,-2,4});
 	TankDrive drive(left_mg, right_mg, master, pros::E_MOTOR_BRAKE_BRAKE, pros::E_MOTOR_GEAR_GREEN);
-	
+	pros::ADIDigitalOut pneumatic('a');
 	// // Drive forward 24 inches
 	// drive.driveDistance(24.0);
 	// pros::delay(200);
@@ -74,17 +74,69 @@ void autonomous() {
 	// pros::delay(200);
 	
 	// Drive forward 12 inches at half speed
-	drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
-	pros::delay(10);
-	drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 4);
-	pros::delay(10);
-	drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
-	pros::delay(10);
-	drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 4);
-	pros::delay(10);
-	drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
-	pros::delay(10);
-	drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	// drive.driveDistance(-24, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	// drive.driveDistance(24, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	// while(true){
+	// drive.turnAngle(90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// pros::delay(1000);
+	// drive.turnAngle(-90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// pros::delay(1000);
+	// drive.turnAngle(-90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// pros::delay(1000);
+	// drive.turnAngle(90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// pros::delay(1000);
+	// }
+	pros::MotorGroup intake_left_mg({16}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup intake_right_mg({-9});
+	Transport intake(intake_left_mg,
+        intake_right_mg,
+        master,
+        pros::E_MOTOR_BRAKE_COAST,
+        pros::E_MOTOR_GEAR_600,
+        pros::E_CONTROLLER_DIGITAL_L2,
+        pros::E_CONTROLLER_DIGITAL_L1,
+        0.5);
+
+	pros::MotorGroup lift_left_mg({8}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup lift_right_mg({-14});
+
+	Transport lift(lift_left_mg,
+        lift_right_mg,
+        master,
+        pros::E_MOTOR_BRAKE_COAST,
+        pros::E_MOTOR_GEAR_600,
+        pros::E_CONTROLLER_DIGITAL_R1,
+        pros::E_CONTROLLER_DIGITAL_R2,
+        0.75);
+	 pneumatic.set_value(true);
+	 drive.driveDistance(-20.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	//  drive.driveDistance-3.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	//  drive.driveDistance(-23.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	 pros::delay(30);
+	 drive.turnAngle(45, DriveConstants::MAX_TURN_VELOCITY / 3);
+	 pros::delay(30);
+	 drive.driveDistance(-15.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	 pros::delay(30);
+	 drive.driveDistance(5.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	 drive.turnAngle(-59, DriveConstants::MAX_TURN_VELOCITY / 4);
+	 drive.driveDistance(-23.5, DriveConstants::MAX_DRIVE_VELOCITY / 4);
+	 pneumatic.set_value(false);
+	 drive.driveDistance(12.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	 intake.moveOut();
+	 lift.moveIn();
+	 drive.driveDistance(28.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	
+	// pros::delay(10);
+	// drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 4);
+	// pros::delay(10);
+	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	// pros::delay(10);
+	// drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 4);
+	// pros::delay(10);
+	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	// pros::delay(10);
+	// drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
 	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
 	// drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 3);
 	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
@@ -108,7 +160,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	// autonomous();
+	autonomous();
+	return;
 	// std::array<float, 12> thing = {0};
 	// UpdateTuningDisplay(thing);
 	printf("starting opcontrol");

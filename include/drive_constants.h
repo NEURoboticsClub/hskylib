@@ -20,7 +20,7 @@ namespace DriveConstants {
     
     // Tolerances
     constexpr double DRIVE_TOLERANCE = 0.5;  // inches
-    constexpr double TURN_TOLERANCE = 1;   // degrees
+    constexpr double TURN_TOLERANCE = 1.9;   // degrees
     
     // Movement limits
     constexpr int MAX_DRIVE_VELOCITY = 127;  // velocity units
