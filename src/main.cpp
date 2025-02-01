@@ -59,7 +59,23 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::MotorGroup left_mg({-1,18,-10});
+	pros::MotorGroup right_mg({5,-2,4});
+	TankDrive drive(left_mg, right_mg, master, pros::E_MOTOR_BRAKE_BRAKE, pros::E_MOTOR_GEAR_GREEN);
+	
+	// // Drive forward 24 inches
+	// drive.driveDistance(24.0);
+	// pros::delay(200);
+	
+	// // Turn 90 degrees clockwise
+	// drive.turnAngle(90.0);
+	// pros::delay(200);
+	
+	// Drive forward 12 inches at half speed
+	drive.driveDistance(12.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -101,7 +117,7 @@ void opcontrol() {
 
 	// printf("Constructing tank drive");
 	TankDrive tankdrivefku(left_mg, right_mg, master, pros::E_MOTOR_BRAKE_COAST, pros::E_MOTOR_GEAR_600);
-	tankdrivefku.initialize();
+	tankdrivefku.initialize(DriveStyle::TANK);
 
 	pros::MotorGroup intake_left_mg({16}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 	pros::MotorGroup intake_right_mg({-9});

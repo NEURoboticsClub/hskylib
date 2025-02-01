@@ -1,4 +1,6 @@
 #include "tank_drive.h"
+#include <cmath>
+#include "drive_constants.h"
 
 // constructor
 TankDrive::TankDrive(pros::MotorGroup& leftMotors,
@@ -13,6 +15,92 @@ TankDrive::TankDrive(pros::MotorGroup& leftMotors,
             rightMotorGroup.set_brake_mode_all(brakeMode);
             leftMotorGroup.set_gearing_all(gearset);
             rightMotorGroup.set_gearing_all(gearset);
+            
+            // Initialize PID controllers
+            drivePID = new PIDController(DriveConstants::DRIVE_KP, 
+                                       DriveConstants::DRIVE_KI, 
+                                       DriveConstants::DRIVE_KD);
+            turnPID = new PIDController(DriveConstants::TURN_KP, 
+                                      DriveConstants::TURN_KI, 
+                                      DriveConstants::TURN_KD);
+}
+
+TankDrive::~TankDrive() {
+    delete drivePID;
+    delete turnPID;
+}
+
+double TankDrive::inchesToTicks(double inches) {
+    return (inches / DriveConstants::WHEEL_CIRCUMFERENCE) * DriveConstants::TICKS_PER_REV;
+}
+
+double TankDrive::ticksToInches(double ticks) {
+    return (ticks / DriveConstants::TICKS_PER_REV) * DriveConstants::WHEEL_CIRCUMFERENCE;
+}
+
+double TankDrive::degreesToTicks(double degrees) {
+    double arcLength = (degrees / 360.0) * (DriveConstants::TRACK_WIDTH * M_PI);
+    return inchesToTicks(arcLength);
+}
+
+void TankDrive::resetEncoders() {
+    leftMotorGroup.tare_position();
+    rightMotorGroup.tare_position();
+}
+
+double TankDrive::getAveragePosition() {
+    return (leftMotorGroup.get_position() + rightMotorGroup.get_position()) / 2.0;
+}
+
+void TankDrive::driveDistance(double inches, int maxVelocity) {
+    resetEncoders();
+    double targetTicks = inchesToTicks(inches);
+    
+    while (true) {
+        double currentPosition = getAveragePosition();
+        printf("Current Position: %f\n", currentPosition);
+        // double output = 1270 *drivePID->compute(targetTicks, currentPosition);
+        double output = 127;
+        // Convert PID output to motor velocity
+        // int velocity = std::clamp(static_cast<int>(output), -maxVelocity, maxVelocity);
+        
+        leftMotorGroup.move(output);
+        rightMotorGroup.move(output);
+        
+        // Check if we've reached the target
+        if (std::abs(targetTicks - currentPosition) < inchesToTicks(DriveConstants::DRIVE_TOLERANCE)) {
+            leftMotorGroup.move(0);
+            rightMotorGroup.move(0);
+            break;
+        }
+        
+        pros::delay(10);
+    }
+}
+
+void TankDrive::turnAngle(double degrees, int maxVelocity) {
+    resetEncoders();
+    double targetTicks = degreesToTicks(degrees);
+    
+    while (true) {
+        double leftPos = leftMotorGroup.get_position();
+        double rightPos = rightMotorGroup.get_position();
+        double currentTicks = (leftPos - rightPos) / 2.0;
+        
+        double output = turnPID->compute(targetTicks, currentTicks);
+        int velocity = std::clamp(static_cast<int>(output), -maxVelocity, maxVelocity);
+        
+        leftMotorGroup.move_velocity(velocity);
+        rightMotorGroup.move_velocity(-velocity);
+        
+        if (std::abs(targetTicks - currentTicks) < degreesToTicks(DriveConstants::TURN_TOLERANCE)) {
+            leftMotorGroup.move_velocity(0);
+            rightMotorGroup.move_velocity(0);
+            break;
+        }
+        
+        pros::delay(10);
+    }
 }
 
 void TankDrive::tankDrive() {
