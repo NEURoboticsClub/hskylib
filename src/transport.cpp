@@ -38,15 +38,26 @@ void Transport::stop() {
 
 void Transport::runTransport() {
     while (true) {
+        bool inToggleLastState = inToggle.getCurrentState();
+        bool outToggleLastState = outToggle.getCurrentState();
         inToggle.update();
         outToggle.update();
         printf("in state: %d; out state: %d\n", inToggle.getCurrentState(), outToggle.getCurrentState());
-        if (inToggle.getCurrentState()) {
-            outToggle.setCurrentState(false);
+        if (inToggle.getCurrentState() && outToggle.getCurrentState()) {
+            if (inToggleLastState) {
+                inToggle.setCurrentState(false);
+                moveOut();
+                printf("moving out\n");
+            } else {
+                outToggle.setCurrentState(false);
+                moveIn();
+                printf("moving in\n");
+            }
+        }
+        else if (inToggle.getCurrentState()) {
             moveIn();
             printf("moving in\n");
         } else if (outToggle.getCurrentState()) {
-            inToggle.setCurrentState(false);
             moveOut();
             printf("moving out\n");
         } else {
