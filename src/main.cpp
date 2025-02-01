@@ -74,7 +74,15 @@ void autonomous() {
 	// pros::delay(200);
 	
 	// Drive forward 12 inches at half speed
-	drive.driveDistance(12.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	drive.turnAngle(90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	// drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	// drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
+	pros::delay(10);
+	drive.turnAngle(-90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
 }
 
 /**
@@ -91,6 +99,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	autonomous();
 	// std::array<float, 12> thing = {0};
 	// UpdateTuningDisplay(thing);
 	printf("starting opcontrol");

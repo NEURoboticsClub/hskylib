@@ -59,13 +59,13 @@ void TankDrive::driveDistance(double inches, int maxVelocity) {
     while (true) {
         double currentPosition = getAveragePosition();
         printf("Current Position: %f\n", currentPosition);
-        // double output = 1270 *drivePID->compute(targetTicks, currentPosition);
-        double output = 127;
+        double output = drivePID->compute(targetTicks, currentPosition);
         // Convert PID output to motor velocity
-        // int velocity = std::clamp(static_cast<int>(output), -maxVelocity, maxVelocity);
+        int voltage = std::clamp(static_cast<int>(output), -maxVelocity, maxVelocity);
+        printf("Output Voltage: %d\n", voltage);
         
-        leftMotorGroup.move(output);
-        rightMotorGroup.move(output);
+        leftMotorGroup.move(voltage);
+        rightMotorGroup.move(voltage);
         
         // Check if we've reached the target
         if (std::abs(targetTicks - currentPosition) < inchesToTicks(DriveConstants::DRIVE_TOLERANCE)) {
@@ -81,7 +81,7 @@ void TankDrive::driveDistance(double inches, int maxVelocity) {
 void TankDrive::turnAngle(double degrees, int maxVelocity) {
     resetEncoders();
     double targetTicks = degreesToTicks(degrees);
-    
+
     while (true) {
         double leftPos = leftMotorGroup.get_position();
         double rightPos = rightMotorGroup.get_position();
@@ -90,13 +90,13 @@ void TankDrive::turnAngle(double degrees, int maxVelocity) {
         double output = turnPID->compute(targetTicks, currentTicks);
         int velocity = std::clamp(static_cast<int>(output), -maxVelocity, maxVelocity);
         
-        leftMotorGroup.move_velocity(velocity);
-        rightMotorGroup.move_velocity(-velocity);
+        leftMotorGroup.move(velocity);
+        rightMotorGroup.move(-velocity);
         
         if (std::abs(targetTicks - currentTicks) < degreesToTicks(DriveConstants::TURN_TOLERANCE)) {
-            leftMotorGroup.move_velocity(0);
-            rightMotorGroup.move_velocity(0);
-            break;
+            leftMotorGroup.move(0);
+            rightMotorGroup.move(0);
+            // break;
         }
         
         pros::delay(10);
