@@ -11,9 +11,12 @@ private:
     Toggle inToggle;
     Toggle outToggle;
     double motorDutyCycle;
+    bool intakeIn;
+    bool intakeOut;
 
     // main function
     void runTransport();
+    
 
 public:
     Transport(pros::MotorGroup& leftMotors,

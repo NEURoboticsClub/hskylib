@@ -14,13 +14,13 @@ namespace DriveConstants {
     constexpr double DRIVE_KD = 0.1;
     
     // PID Constants for turning
-    constexpr double TURN_KP = 5;
-    constexpr double TURN_KI = 0.0;
-    constexpr double TURN_KD = 0.0;
+    constexpr double TURN_KP = 2;
+    constexpr double TURN_KI = 0.05;
+    constexpr double TURN_KD = 0.1;
     
     // Tolerances
     constexpr double DRIVE_TOLERANCE = 0.5;  // inches
-    constexpr double TURN_TOLERANCE = 0.5;   // degrees
+    constexpr double TURN_TOLERANCE = 1;   // degrees
     
     // Movement limits
     constexpr int MAX_DRIVE_VELOCITY = 127;  // velocity units

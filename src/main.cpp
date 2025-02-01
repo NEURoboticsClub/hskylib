@@ -74,14 +74,23 @@ void autonomous() {
 	// pros::delay(200);
 	
 	// Drive forward 12 inches at half speed
-	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
-	drive.turnAngle(90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	pros::delay(10);
+	drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 4);
+	pros::delay(10);
+	drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	pros::delay(10);
+	drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 4);
+	pros::delay(10);
+	drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
+	pros::delay(10);
+	drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 3);
 	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
 	// drive.turnAngle(180, DriveConstants::MAX_TURN_VELOCITY / 3);
 	// drive.driveDistance(24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
 	// drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
 	pros::delay(10);
-	drive.turnAngle(-90, DriveConstants::MAX_TURN_VELOCITY / 3);
+	// drive.turnAngle(-90, DriveConstants::MAX_TURN_VELOCITY / 3);
 	// drive.driveDistance(-24.0, DriveConstants::MAX_DRIVE_VELOCITY / 2);
 }
 
@@ -99,7 +108,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	autonomous();
+	// autonomous();
 	// std::array<float, 12> thing = {0};
 	// UpdateTuningDisplay(thing);
 	printf("starting opcontrol");
@@ -126,7 +135,7 @@ void opcontrol() {
 
 	// printf("Constructing tank drive");
 	TankDrive tankdrivefku(left_mg, right_mg, master, pros::E_MOTOR_BRAKE_COAST, pros::E_MOTOR_GEAR_600);
-	tankdrivefku.initialize(DriveStyle::TANK);
+	tankdrivefku.initialize(DriveStyle::ARCADE);
 
 	pros::MotorGroup intake_left_mg({16}); //-5    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 	pros::MotorGroup intake_right_mg({-9});
@@ -136,8 +145,8 @@ void opcontrol() {
         master,
         pros::E_MOTOR_BRAKE_COAST,
         pros::E_MOTOR_GEAR_600,
-        pros::E_CONTROLLER_DIGITAL_L1,
         pros::E_CONTROLLER_DIGITAL_L2,
+        pros::E_CONTROLLER_DIGITAL_L1,
         0.5);
 	
 	intake.initialize();
@@ -166,26 +175,16 @@ void opcontrol() {
 		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
 			pneumatic.set_value(true);  // Extend the pneumatic
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
 			pneumatic.set_value(false); // Retract the pneumatic
 		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
 			arm_motor.move_velocity(75);  // Move the arm up
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 			arm_motor.move_velocity(-75); // Move the arm down
 		} else {
 			arm_motor.set_brake_mode(pros::MotorBrake::hold);
 			arm_motor.brake();    // Stop the arm
-		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-			lift_left_mg.move_velocity(25);  // Slowly move the lift up
-			lift_right_mg.move_velocity(25);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			lift_left_mg.move_velocity(-25); // Slowly move the lift down
-			lift_right_mg.move_velocity(-25);
-		} else {
-			lift_left_mg.move_velocity(0);   // Stop the lift
-			lift_right_mg.move_velocity(0);
 		}
 		pros::delay(50);
 	}
