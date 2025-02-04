@@ -6,7 +6,7 @@
 
 class LadyBrown {
 private:
-    pros::Motor* armMotor;
+    pros::Motor armMotor;
     pros::Controller ctrl;
     pros::controller_digital_e_t upButton;
     pros::controller_digital_e_t downButton;

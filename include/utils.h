@@ -16,4 +16,6 @@ enum ExceptionCode {
     INVALID_ARGUMENT = 0
 };
 
+double scaleControllerInput(int x);
+
 #endif

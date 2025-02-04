@@ -40,8 +40,11 @@ void OdometryThreeWheel::updatePosition() {
     double localOffsetY = (dR / deltaThetaRad) + sR;
     double thetaM = *currentPosition[2] + (deltaThetaRad / 2.0);
 
-    double x = *currentPosition[0] + (dL * (double)cos(*currentPosition[2] + (deltaThetaRad / 2.0)));
-    double y = *currentPosition[1] + (dL * (double)sin(*currentPosition[2] + (deltaThetaRad / 2.0)));
+    double dX = (localOffsetX * cos(thetaM)) - (localOffsetY * sin(thetaM));
+    double dY = (localOffsetX * sin(thetaM)) + (localOffsetY * cos(thetaM));
+
+    double x = *currentPosition[0] + dX;
+    double y = *currentPosition[1] + dY;
     double theta = *currentPosition[2] + deltaThetaRad;
 
     *currentPosition[0] = x;

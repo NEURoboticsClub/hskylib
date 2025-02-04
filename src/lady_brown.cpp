@@ -9,25 +9,23 @@ LadyBrown::LadyBrown(uint8_t armMotorPort,
     pros::controller_digital_e_t upButton,
     pros::controller_digital_e_t downButton,
     double motorDutyCycle)
-        : ctrl(ctrl), upButton(upButton), downButton(downButton), motorDutyCycle(motorDutyCycle) {
-            pros::Motor motor(armMotorPort);
-            armMotor = &motor;
-            armMotor->set_brake_mode(brakeMode);
-            armMotor->set_gearing(gearset);
+        : ctrl(ctrl), upButton(upButton), downButton(downButton), motorDutyCycle(motorDutyCycle), armMotor(armMotorPort) {
+            armMotor.set_brake_mode(brakeMode);
+            armMotor.set_gearing(gearset);
 }
 
 void LadyBrown::moveUp() {
-    int speed = (motorDutyCycle * (double)getInputExtremeForGearset((pros::motor_gearset_e) armMotor->get_gearing()));
-    armMotor->move(speed);
+    int speed = (motorDutyCycle * (double)getInputExtremeForGearset((pros::motor_gearset_e) armMotor.get_gearing()));
+    armMotor.move(speed);
 }
 
 void LadyBrown::moveDown() {
-    int speed = (motorDutyCycle * (double)getInputExtremeForGearset((pros::motor_gearset_e) armMotor->get_gearing()));
-    armMotor->move(-speed);
+    int speed = (motorDutyCycle * (double)getInputExtremeForGearset((pros::motor_gearset_e) armMotor.get_gearing()));
+    armMotor.move(-speed);
 }
 
 void LadyBrown::stop() {
-    armMotor->brake();
+    armMotor.brake();
 }
 
 void LadyBrown::runLadyBrown() {
@@ -47,5 +45,5 @@ void LadyBrown::runLadyBrown() {
 }
 
 void LadyBrown::initialize() {
-    pros::Task task([this] { runLadyBrown(); });
+    pros::Task task([this] { runLadyBrown(); }, "lady brown");
 }

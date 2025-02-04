@@ -2,17 +2,19 @@
 #include "utils.h"
 
 // constructor
-Transport::Transport(pros::MotorGroup& leftMotors,
-    pros::MotorGroup& rightMotors,
+Transport::Transport(std::vector<std::int8_t> leftMotors,
+    std::vector<std::int8_t> rightMotors,
     pros::Controller& ctrl,
     pros::motor_brake_mode_e brakeMode,
     pros::motor_gearset_e gearset,
     pros::controller_digital_e_t inButton,
     pros::controller_digital_e_t outButton,
     double motorDutyCycle)
-        : inToggle(ctrl, inButton), outToggle(ctrl, outButton), motorDutyCycle(motorDutyCycle) {
-            leftMotorGroup.append(leftMotors);
-            rightMotorGroup.append(rightMotors);
+        : inToggle(ctrl, inButton),
+        outToggle(ctrl, outButton),
+        motorDutyCycle(motorDutyCycle),
+        leftMotorGroup(leftMotors),
+        rightMotorGroup(rightMotors) {
             leftMotorGroup.set_brake_mode_all(brakeMode);
             rightMotorGroup.set_brake_mode_all(brakeMode);
             leftMotorGroup.set_gearing_all(gearset);

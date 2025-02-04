@@ -5,12 +5,15 @@
 #include "utils.h"
 #include "PIDController.h"
 #include "drive_constants.h"
+#include "odometry_three_wheel.h"
 
 class TankDrive {
 private:
-    pros::MotorGroup leftMotorGroup = {};
-    pros::MotorGroup rightMotorGroup = {};
+    pros::MotorGroup leftMotorGroup;
+    pros::MotorGroup rightMotorGroup;
     pros::Controller controller;
+    double speedMultiplier;
+    OdometryThreeWheel odom;
     
     // PID Controllers
     PIDController* drivePID;
@@ -28,11 +31,13 @@ private:
     void arcadeDrive();
 
 public:
-    TankDrive(pros::MotorGroup& leftMotors,
-        pros::MotorGroup& rightMotors,
+    TankDrive(std::vector<int8_t> leftMotors,
+        std::vector<int8_t> rightMotors,
         pros::Controller& ctrl,
         pros::motor_brake_mode_e brakeMode,
-        pros::motor_gearset_e gearset);
+        pros::motor_gearset_e gearset,
+        double speedMultiplier,
+        OdometryThreeWheel odom);
     
     ~TankDrive();
 

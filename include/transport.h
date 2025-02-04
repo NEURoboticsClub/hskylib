@@ -6,8 +6,8 @@
 
 class Transport {
 private:
-    pros::MotorGroup leftMotorGroup = {};
-    pros::MotorGroup rightMotorGroup = {};
+    pros::MotorGroup leftMotorGroup;
+    pros::MotorGroup rightMotorGroup;
     Toggle inToggle;
     Toggle outToggle;
     double motorDutyCycle;
@@ -19,8 +19,8 @@ private:
     
 
 public:
-    Transport(pros::MotorGroup& leftMotors,
-        pros::MotorGroup& rightMotors,
+    Transport(std::vector<std::int8_t> leftMotors,
+        std::vector<std::int8_t> rightMotors,
         pros::Controller& ctrl,
         pros::motor_brake_mode_e brakeMode,
         pros::motor_gearset_e gearset,
