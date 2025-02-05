@@ -56,8 +56,9 @@ void opcontrol() {
 	printf("starting opcontrol");
 	pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
 	RobotConfig config = hsky1Config;
+	Odometry odom = OdometryThreeWheel(1,2,3,1.0,1.0,1.0);
 
-	TankDrive tankdrive(config.ports.drivebase.brainside, config.ports.drivebase.batteryside, ctrl, config.drivebaseBrakeMode, config.drivebaseGearset, config.drivebaseSpeedMultiplier);
+	TankDrive tankdrive(config.ports.drivebase.brainside, config.ports.drivebase.batteryside, ctrl, config.drivebaseBrakeMode, config.drivebaseGearset, config.drivebaseSpeedMultiplier,&odom);
 	tankdrive.initialize(config.driveStyle);
 
 	Transport intake(config.ports.intake.brainside,

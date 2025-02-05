@@ -13,7 +13,7 @@ private:
     pros::MotorGroup rightMotorGroup;
     pros::Controller controller;
     double speedMultiplier;
-    OdometryThreeWheel odom;
+    Odometry* odom;
     
     // PID Controllers
     PIDController* drivePID;
@@ -37,7 +37,7 @@ public:
         pros::motor_brake_mode_e brakeMode,
         pros::motor_gearset_e gearset,
         double speedMultiplier,
-        OdometryThreeWheel odom);
+        Odometry* odom);
     
     ~TankDrive();
 

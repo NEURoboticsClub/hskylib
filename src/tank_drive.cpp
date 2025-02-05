@@ -9,7 +9,7 @@ TankDrive::TankDrive(std::vector<int8_t> leftMotors,
     pros::motor_brake_mode_e brakeMode,
     pros::motor_gearset_e gearset,
     double speedMultiplier,
-    OdometryThreeWheel odom)
+    Odometry* odom)
         : controller(ctrl),
         odom(odom),
         speedMultiplier(speedMultiplier),
@@ -27,6 +27,7 @@ TankDrive::TankDrive(std::vector<int8_t> leftMotors,
             turnPID = new PIDController(DriveConstants::TURN_KP, 
                                       DriveConstants::TURN_KI, 
                                       DriveConstants::TURN_KD);
+            odom->init();
 }
 
 TankDrive::~TankDrive() {
@@ -153,6 +154,9 @@ void TankDrive::arcadeDrive() {
 
         rightMotorGroup.move((int)rightSpeed);
         leftMotorGroup.move((int)leftSpeed);
+
+        Pose currentPose = odom->getPose();
+        printf("x: %f, y: %f, theta: %f", currentPose.x, currentPose.y, currentPose.theta);
 
         pros::delay(20);
     }

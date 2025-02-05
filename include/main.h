@@ -41,6 +41,7 @@
 #include "lady_brown.h"
 #include "pneumatics.h"
 #include "robot_config.h"
+#include "odometry.h"
 
 /**
  * You should add more #includes here

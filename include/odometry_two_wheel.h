@@ -2,22 +2,22 @@
 #define ODOMETRY_TWO_WHEEL_H
 
 #include "api.h"
-#include "odometry_base.h"
+#include "odometry.h"
 
-class OdometryTwoWheel: public OdometryBase
+class TwoWheelOdometry : public Odometry
 {
     public:
-        OdometryTwoWheel(uint8_t leftEncoderPort, uint8_t rightEncoderPort, double dW);
-        void reset();
+        TwoWheelOdometry(int8_t leftEncoderPort, int8_t rightEncoderPort, double dW);
+        void reset() override;
 
     protected:
-        void updatePosition();
+        void updatePose() override;
 
     private:
-        pros::Rotation* leftEncoder;
-        pros::Rotation* rightEncoder;
-        uint16_t leftEncoderLastPos;
-        uint16_t rightEncoderLastPos;
+        pros::Rotation leftEncoder;
+        pros::Rotation rightEncoder;
+        uint32_t leftEncoderLastPos;
+        uint32_t rightEncoderLastPos;
         double dW;
 };
 
