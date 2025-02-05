@@ -90,13 +90,23 @@ void opcontrol() {
 
 	mogoClamp.initialize();
 
-	LadyBrown ladyBrown(config.ports.lady_brown,
+	LadyBrown ladyBrown(config.ports.lady_brown.arm,
+		config.ports.lady_brown.sensor,
 		ctrl,
 		config.ladyBrownBrakeMode,
         config.ladyBrownGearset,
         config.ladyBrownUpButton,
         config.ladyBrownDownButton,
-        config.ladyBrownDutyCycle);
+		config.ladyBrownEaseButton,
+        config.ladyBrownArmedButton,
+		config.ladyBrownFireButton,
+        config.ladyBrownDutyCycle,
+		config.ladyBrownkP,
+		config.ladyBrownkI,
+		config.ladyBrownkD,
+		config.ladyBrownEaseSetPoint,
+		config.ladyBrownArmedSetPoint,
+		config.ladyBrownFireSetPoint);
 	
 	ladyBrown.initialize();
 

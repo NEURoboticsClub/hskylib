@@ -15,11 +15,16 @@ struct TransportPorts {
     std::vector<int8_t> batteryside;
 };
 
+struct LadyBrownPorts {
+    int8_t arm;
+    int8_t sensor;
+};
+
 struct PortAssignments {
     DrivebasePorts drivebase;
     TransportPorts intake;
     TransportPorts scoring;
-    int lady_brown;
+    LadyBrownPorts lady_brown;
     char pneumatics;
 };
 
@@ -45,7 +50,16 @@ struct RobotConfig {
     pros::motor_gearset_e ladyBrownGearset;
     pros::controller_digital_e_t ladyBrownUpButton;
     pros::controller_digital_e_t ladyBrownDownButton;
+    pros::controller_digital_e_t ladyBrownEaseButton;
+    pros::controller_digital_e_t ladyBrownArmedButton;
+    pros::controller_digital_e_t ladyBrownFireButton;
     double ladyBrownDutyCycle;
+    double ladyBrownkP;
+    double ladyBrownkI;
+    double ladyBrownkD;
+    uint32_t ladyBrownEaseSetPoint;
+    uint32_t ladyBrownArmedSetPoint;
+    uint32_t ladyBrownFireSetPoint;
 };
 
 static DrivebasePorts hsky1DrivebasePorts = {
@@ -63,11 +77,16 @@ static TransportPorts hsky1Scoring = {
     {-14} // batteryside
 };
 
+static LadyBrownPorts hsky1LadyBrown = {
+    17,
+    13
+};
+
 static PortAssignments hsky1Ports = {
     hsky1DrivebasePorts,
     hsky1Intake,
     hsky1Scoring,
-    17,      // lady brown
+    hsky1LadyBrown,
     'a',    // pneumatics
 };
 
@@ -93,7 +112,16 @@ static RobotConfig hsky1Config = {
     pros::E_MOTOR_GEAR_200,
     pros::E_CONTROLLER_DIGITAL_UP,
     pros::E_CONTROLLER_DIGITAL_DOWN,
-    0.6
+    pros::E_CONTROLLER_DIGITAL_LEFT,
+    pros::E_CONTROLLER_DIGITAL_RIGHT,
+    pros::E_CONTROLLER_DIGITAL_LEFT, // TODO: fix button and sensor port assignments for lady brown
+    0.6,
+    0.005,
+    0.0,
+    0.0,
+    0,
+    0,
+    0
 };
 
 static DrivebasePorts hsky2DrivebasePorts = {
@@ -111,11 +139,16 @@ static TransportPorts hsky2Scoring = {
     {-14} // batteryside
 };
 
+static LadyBrownPorts hsky2LadyBrown = {
+    20,
+    -1
+};
+
 static PortAssignments hsky2Ports = {
     hsky2DrivebasePorts,
     hsky2Intake,
     hsky2Scoring,
-    20,      // lady brown
+    hsky2LadyBrown,
     'a',    // pneumatics
 };
 
@@ -141,7 +174,16 @@ static RobotConfig hsky2Config = {
     pros::E_MOTOR_GEAR_200,
     pros::E_CONTROLLER_DIGITAL_UP,
     pros::E_CONTROLLER_DIGITAL_DOWN,
-    0.6
+    pros::E_CONTROLLER_DIGITAL_LEFT,
+    pros::E_CONTROLLER_DIGITAL_RIGHT,
+    pros::E_CONTROLLER_DIGITAL_LEFT, // TODO: fix button and sensor port assignments for lady brown
+    0.6,
+    0.005,
+    0.0,
+    0.0,
+    0,
+    0,
+    0
 };
 
 #endif

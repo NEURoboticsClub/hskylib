@@ -8,16 +8,12 @@ public:
 
     PIDController(double kp, double ki, double kd);
 
-    virtual ~PIDController();
-
-
-    virtual double compute(double setpoint, double current_value);
-
+    double compute(double setpoint, double current_value);
+    void reset();
 
     void setKp(double kp);
     void setKi(double ki);
     void setKd(double kd);
-
 
     double getKp() const;
     double getKi() const;
@@ -29,10 +25,8 @@ protected:
     double ki_;
     double kd_;
 
-
     double prev_error_;
     double integral_;
-    std::chrono::steady_clock::time_point prev_time_;
 };
 
 #endif
