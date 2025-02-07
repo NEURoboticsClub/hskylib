@@ -28,6 +28,27 @@ struct PortAssignments {
     char pneumatics;
 };
 
+// struct DriveConstants {
+//     double WHEEL_DIAMETER = 3.25;  // inches
+//     double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * M_PI;
+//     double TRACK_WIDTH = 12.376;    // distance between wheels in inches
+//     double TICKS_PER_REV = 300.0*57.0/39.0; // encoder ticks per revolution
+    
+//     double kPDrive = 1; 
+//     double kIDrive = 0.0;
+//     double kDDrive = 0.1;
+    
+//     double kPTurn = 2;
+//     double kITurn = 0.05;
+//     double kDTurn = 0.1;
+    
+//     double driveTolerance = 0.5;  // inches
+//     double turnTolerance = 1.0;   // degrees
+    
+//     double maxDriveVelocityDutyCycle = 1.0;  // velocity units
+//     double maxTurnVelocityDutyCycle = 1.0;   // velocity units
+// };
+
 struct RobotConfig {
     PortAssignments ports;
     pros::motor_brake_mode_e drivebaseBrakeMode;
@@ -140,8 +161,8 @@ static TransportPorts hsky2Scoring = {
 };
 
 static LadyBrownPorts hsky2LadyBrown = {
-    20,
-    -1
+    19,
+    20
 };
 
 static PortAssignments hsky2Ports = {
@@ -171,19 +192,19 @@ static RobotConfig hsky2Config = {
     pros::E_CONTROLLER_DIGITAL_X,
 	pros::E_CONTROLLER_DIGITAL_B,
     pros::E_MOTOR_BRAKE_HOLD,
-    pros::E_MOTOR_GEAR_200,
+    pros::E_MOTOR_GEAR_100,
     pros::E_CONTROLLER_DIGITAL_UP,
     pros::E_CONTROLLER_DIGITAL_DOWN,
     pros::E_CONTROLLER_DIGITAL_LEFT,
     pros::E_CONTROLLER_DIGITAL_RIGHT,
     pros::E_CONTROLLER_DIGITAL_LEFT, // TODO: fix button and sensor port assignments for lady brown
     0.6,
-    0.005,
+    0.01,
     0.0,
-    0.0,
+    0.00,
     0,
-    0,
-    0
+    10000,
+    40000
 };
 
 #endif

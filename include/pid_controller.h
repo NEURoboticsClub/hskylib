@@ -1,14 +1,16 @@
 #ifndef PID_CONTROLLER_H
 #define PID_CONTROLLER_H
 
-#include <chrono>
+#include "pose.h"
+#include <cmath>
 
+template <typename T>
 class PIDController {
 public:
 
     PIDController(double kp, double ki, double kd);
 
-    double compute(double setpoint, double current_value);
+    double compute(T setpoint, T current_value);
     void reset();
 
     void setKp(double kp);

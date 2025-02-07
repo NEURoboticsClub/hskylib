@@ -6,6 +6,9 @@
 #include "pid_controller.h"
 #include "drive_constants.h"
 #include "odometry_three_wheel.h"
+#include "odometry_drivebase.h"
+#include "odometry.h"
+#include "pose.h"
 
 class TankDrive {
 private:
@@ -14,21 +17,17 @@ private:
     pros::Controller controller;
     double speedMultiplier;
     Odometry* odom;
+    Pose* setPoint = new Pose(0.0,0.0,0.0);
+    pros::Task* currentTask;
     
     // PID Controllers
-    PIDController* drivePID;
-    PIDController* turnPID;
-    
-    // Helper functions
-    double inchesToTicks(double inches);
-    double ticksToInches(double ticks);
-    double degreesToTicks(double degrees);
-    void resetEncoders();
-    double getAveragePosition();
+    PIDController<Pose>* pidCtrlMove;
+    PIDController<double>* pidCtrlTurn;
     
     // Drive control methods
     void tankDrive();
     void arcadeDrive();
+    void runAuton();
 
 public:
     TankDrive(std::vector<int8_t> leftMotors,
@@ -45,9 +44,10 @@ public:
     void initialize(DriveStyle driveStyle);
     
     // Autonomous movement methods
-    void driveDistance(double inches, int maxVelocity = DriveConstants::MAX_DRIVE_VELOCITY);
-    void turnAngle(double degrees, int maxVelocity = DriveConstants::MAX_TURN_VELOCITY);
-    bool isMoving();
+    void initAuton();
+    void driveToPose(Pose* targetPose);
+    void turnToHeading(double targetHeadingDegrees);
+    void driveToPoint(double targetX, double targetY);
 };
 
 #endif

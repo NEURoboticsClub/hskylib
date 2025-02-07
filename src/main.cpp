@@ -55,10 +55,12 @@ void autonomous() {}
 void opcontrol() {
 	printf("starting opcontrol");
 	pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
-	RobotConfig config = hsky1Config;
-	Odometry odom = OdometryThreeWheel(1,2,3,1.0,1.0,1.0);
+	RobotConfig config = hsky2Config;
+	Odometry odom = DrivebaseOdometry(config.ports.intake.brainside,
+        config.ports.intake.batteryside,pros::E_MOTOR_GEAR_600,12.376);
 
 	TankDrive tankdrive(config.ports.drivebase.brainside, config.ports.drivebase.batteryside, ctrl, config.drivebaseBrakeMode, config.drivebaseGearset, config.drivebaseSpeedMultiplier,&odom);
+	
 	tankdrive.initialize(config.driveStyle);
 
 	Transport intake(config.ports.intake.brainside,
@@ -97,9 +99,8 @@ void opcontrol() {
         config.ladyBrownGearset,
         config.ladyBrownUpButton,
         config.ladyBrownDownButton,
-		config.ladyBrownEaseButton,
-        config.ladyBrownArmedButton,
-		config.ladyBrownFireButton,
+		pros::E_CONTROLLER_DIGITAL_RIGHT,
+		pros::E_CONTROLLER_DIGITAL_LEFT,
         config.ladyBrownDutyCycle,
 		config.ladyBrownkP,
 		config.ladyBrownkI,

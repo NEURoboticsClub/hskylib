@@ -1,10 +1,28 @@
 #include "pid_controller.h"
+#include "pose.h"
+#include <cmath>
 
-PIDController::PIDController(double kp, double ki, double kd)
+template <typename T>
+PIDController<T>::PIDController(double kp, double ki, double kd)
     : kp_(kp), ki_(ki), kd_(kd), prev_error_(0.0), integral_(0.0) {}
 
+template<>
+double PIDController<Pose>::compute(Pose setpoint, Pose current_value) {
+    double error = sqrt(((setpoint.x - current_value.x) * (setpoint.x - current_value.x)) + ((setpoint.y - current_value.y) * (setpoint.y - current_value.y)));
 
-double PIDController::compute(double setpoint, double current_value) {
+    double proportional = kp_ * error;
+
+    integral_ += ki_ * error;
+
+    double derivative = kd_ * (error - prev_error_);
+
+    prev_error_ = error;
+
+    return proportional + integral_ + derivative;
+}
+
+template<>
+double PIDController<double>::compute(double setpoint, double current_value) {
     double error = setpoint - current_value;
 
     double proportional = kp_ * error;
@@ -18,20 +36,29 @@ double PIDController::compute(double setpoint, double current_value) {
     return proportional + integral_ + derivative;
 }
 
-void PIDController::reset() {
+template <typename T>
+void PIDController<T>::reset() {
     prev_error_ = 0.0;
     integral_ = 0.0;
 }
 
-void PIDController::setKp(double kp) { kp_ = kp; }
+template <typename T>
+void PIDController<T>::setKp(double kp) { kp_ = kp; }
 
-void PIDController::setKi(double ki) { ki_ = ki; }
+template <typename T>
+void PIDController<T>::setKi(double ki) { ki_ = ki; }
 
-void PIDController::setKd(double kd) { kd_ = kd; }
+template <typename T>
+void PIDController<T>::setKd(double kd) { kd_ = kd; }
 
+template <typename T>
+double PIDController<T>::getKp() const { return kp_; }
 
-double PIDController::getKp() const { return kp_; }
+template <typename T>
+double PIDController<T>::getKi() const { return ki_; }
 
-double PIDController::getKi() const { return ki_; }
+template <typename T>
+double PIDController<T>::getKd() const { return kd_; }
 
-double PIDController::getKd() const { return kd_; }
+template class PIDController<Pose>;
+template class PIDController<double>;

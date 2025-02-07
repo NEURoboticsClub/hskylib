@@ -12,15 +12,14 @@ class LadyBrown {
         pros::controller_digital_e_t upButton;
         pros::controller_digital_e_t downButton;
         double motorDutyCycle;
-        PIDController pidCtrl;
-        pros::controller_digital_e_t easeButton;
-        pros::controller_digital_e_t armedButton;
-        pros::controller_digital_e_t fireButton;
+        PIDController<double>* pidCtrl;
         pros::Rotation rotSensor;
-        uint32_t setPoint;
-        uint32_t easeSetPoint;
-        uint32_t armedSetPoint;
-        uint32_t fireSetPoint;
+        int32_t setPoint;
+        int32_t easeSetPoint;
+        int32_t armedSetPoint;
+        int32_t fireSetPoint;
+        Toggle macroForwardToggle;
+        Toggle macroBackToggle;
 
         // main function
         void runLadyBrown();
@@ -33,21 +32,20 @@ class LadyBrown {
             pros::motor_gearset_e gearset,
             pros::controller_digital_e_t upButton,
             pros::controller_digital_e_t downButton,
-            pros::controller_digital_e_t easeButton,
-            pros::controller_digital_e_t armedButton,
-            pros::controller_digital_e_t fireButton,
+            pros::controller_digital_e_t macroForwardButton,
+            pros::controller_digital_e_t macroBackButton,
             double motorDutyCycle,
             double kP,
             double kI,
             double kD,
-            uint32_t easeSetPoint,
-            uint32_t armedSetPoint,
-            uint32_t fireSetPoint);
+            int32_t easeSetPoint,
+            int32_t armedSetPoint,
+            int32_t fireSetPoint);
+        
+        ~LadyBrown();
 
         // initialize and start the task
         void initialize();
-        void moveUp();
-        void moveDown();
         void stop();
 };
 
