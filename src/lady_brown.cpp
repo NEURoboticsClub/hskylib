@@ -2,50 +2,85 @@
 #include "utils.h"
 
 // constructor
-LadyBrown::LadyBrown(uint8_t armMotorPort,
+LadyBrown::LadyBrown(int8_t armMotorPort,
+    int8_t sensorPort,
     pros::Controller& ctrl,
     pros::motor_brake_mode_e brakeMode,
     pros::motor_gearset_e gearset,
     pros::controller_digital_e_t upButton,
     pros::controller_digital_e_t downButton,
-    double motorDutyCycle)
-        : ctrl(ctrl), upButton(upButton), downButton(downButton), motorDutyCycle(motorDutyCycle) {
-            pros::Motor motor(armMotorPort);
-            armMotor = &motor;
-            armMotor->set_brake_mode(brakeMode);
-            armMotor->set_gearing(gearset);
+    pros::controller_digital_e_t macroForwardButton,
+    pros::controller_digital_e_t macroBackButton,
+    double motorDutyCycle,
+    double kP,
+    double kI,
+    double kD,
+    int32_t easeSetPoint,
+    int32_t armedSetPoint,
+    int32_t fireSetPoint)
+        : ctrl(ctrl),
+        upButton(upButton),
+        downButton(downButton),
+        macroForwardToggle(ctrl, macroForwardButton),
+        macroBackToggle(ctrl, macroBackButton),
+        motorDutyCycle(motorDutyCycle),
+        armMotor(armMotorPort),
+        rotSensor(sensorPort),
+        easeSetPoint(easeSetPoint),
+        armedSetPoint(armedSetPoint),
+        fireSetPoint(fireSetPoint) {
+            armMotor.set_brake_mode(brakeMode);
+            armMotor.set_gearing(gearset);
+            setPoint = 0;
+            rotSensor.set_reversed(true);
+            rotSensor.reset_position();
+            pidCtrl = new PIDController<double>(kP,kI,kD);
 }
 
-void LadyBrown::moveUp() {
-    int speed = (motorDutyCycle * (double)getInputExtremeForGearset((pros::motor_gearset_e) armMotor->get_gearing()));
-    armMotor->move(speed);
-}
-
-void LadyBrown::moveDown() {
-    int speed = (motorDutyCycle * (double)getInputExtremeForGearset((pros::motor_gearset_e) armMotor->get_gearing()));
-    armMotor->move(-speed);
+LadyBrown::~LadyBrown() {
+    delete pidCtrl;
 }
 
 void LadyBrown::stop() {
-    armMotor->brake();
+    armMotor.brake();
 }
 
 void LadyBrown::runLadyBrown() {
     while (true) {
+        macroForwardToggle.update();
+        macroBackToggle.update();
         if (ctrl.get_digital(upButton)) {
-            moveUp();
-            printf("moving up\n");
+            setPoint += 1200;
         } else if (ctrl.get_digital(downButton)) {
-            moveDown();
-            printf("moving down\n");
+            setPoint -= 1200;
         } else {
-            stop();
-            printf("stopping\n");
+            if (macroForwardToggle.getCurrentState()) {
+                if (setPoint == armedSetPoint) {
+                    setPoint = fireSetPoint;
+                } else if (setPoint == fireSetPoint) {
+                    setPoint = easeSetPoint;
+                } else {
+                    setPoint = armedSetPoint;
+                }
+                macroForwardToggle.setCurrentState(false);
+            } else if (macroBackToggle.getCurrentState()) {
+                if (setPoint == armedSetPoint) {
+                    setPoint = easeSetPoint;
+                } else if (setPoint == easeSetPoint) {
+                    setPoint = fireSetPoint;
+                } else {
+                    setPoint = armedSetPoint;
+                }
+                macroBackToggle.setCurrentState(false);
+            }
         }
+        int16_t maxMotorMag = getInputExtremeForGearset((pros::motor_gearset_e)armMotor.get_gearing());
+        double pidVal = std::clamp((int16_t)pidCtrl->compute((double)setPoint, (double)rotSensor.get_position()), (int16_t)(maxMotorMag * -1), maxMotorMag);
+        armMotor.move(pidVal);
         pros::delay(20);
     }
 }
 
 void LadyBrown::initialize() {
-    pros::Task task([this] { runLadyBrown(); });
+    pros::Task task([this] { runLadyBrown(); }, "lady brown");
 }

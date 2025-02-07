@@ -2,24 +2,24 @@
 #define ODOMETRY_THREE_WHEEL_H
 
 #include "api.h"
-#include "odometry_base.h"
+#include "odometry.h"
 
-class OdometryThreeWheel: public OdometryBase
+class OdometryThreeWheel: public Odometry
 {
     public:
-        OdometryThreeWheel(uint8_t leftEncoderPort, uint8_t rightEncoderPort, uint8_t centerEncoderPort, double sL, double sR, double sS);
-        void reset();
+        OdometryThreeWheel(int8_t leftEncoderPort, int8_t rightEncoderPort, int8_t centerEncoderPort, double sL, double sR, double sS);
+        void reset() override;
     
     protected:
-        void updatePosition();
+        void updatePose() override;
 
     private:
-        pros::Rotation* leftEncoder;
-        pros::Rotation* rightEncoder;
-        pros::Rotation* centerEncoder;
-        uint16_t leftEncoderLastPos;
-        uint16_t rightEncoderLastPos;
-        uint16_t centerEncoderLastPos;
+        pros::Rotation leftEncoder;
+        pros::Rotation rightEncoder;
+        pros::Rotation centerEncoder;
+        uint32_t leftEncoderLastPos;
+        uint32_t rightEncoderLastPos;
+        uint32_t centerEncoderLastPos;
         double sL;
         double sR;
         double sS;

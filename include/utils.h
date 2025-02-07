@@ -16,4 +16,10 @@ enum ExceptionCode {
     INVALID_ARGUMENT = 0
 };
 
+double scaleControllerInput(int x);
+
+double inchesToTicks(double inches);
+double ticksToInches(double ticks);
+double degreesToTicks(double degrees);
+
 #endif

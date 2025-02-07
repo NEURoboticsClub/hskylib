@@ -10,9 +10,6 @@ Toggle::Toggle(pros::Controller& ctrl,
 
 void Toggle::update() {
     bool input = ctrl.get_digital(button);
-    printf("input: %d\n", input);
-    printf("button press: %d\n", ctrl.get_digital(button));
-    printf("button: %d\n", button);
     if(input != previousButtonState){
         if(input){
             currentOnState = !currentOnState;
