@@ -16,8 +16,8 @@ class TwoWheelOdometry : public Odometry
     private:
         pros::Rotation leftEncoder;
         pros::Rotation rightEncoder;
-        uint32_t leftEncoderLastPos;
-        uint32_t rightEncoderLastPos;
+        int32_t leftEncoderLastPos;
+        int32_t rightEncoderLastPos;
         double dW;
 };
 

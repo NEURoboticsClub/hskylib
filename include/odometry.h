@@ -10,11 +10,11 @@ class Odometry // TODO: add mutex for pose (and encoders, because reset?)
         explicit Odometry();
         void init();
         virtual void reset();
-        Pose getPose();
-        void setPose(Pose newPose);
+        void getPose(Pose* pose);
+        void setPose(Pose* newPose);
 
     protected:
-        Pose currentPose;
+        Pose* currentPose;
         virtual void updatePose();
         void runOdometry();
 };

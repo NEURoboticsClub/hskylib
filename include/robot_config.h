@@ -203,7 +203,7 @@ static RobotConfig hsky2Config = {
     0.0,
     0.00,
     0,
-    10000,
+    7500,
     40000
 };
 

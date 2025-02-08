@@ -8,10 +8,8 @@ TankDrive::TankDrive(std::vector<int8_t> leftMotors,
     pros::Controller& ctrl,
     pros::motor_brake_mode_e brakeMode,
     pros::motor_gearset_e gearset,
-    double speedMultiplier,
-    Odometry* odom)
+    double speedMultiplier)
         : controller(ctrl),
-        odom(odom),
         speedMultiplier(speedMultiplier),
         leftMotorGroup(leftMotors),
         rightMotorGroup(rightMotors) {
@@ -27,6 +25,8 @@ TankDrive::TankDrive(std::vector<int8_t> leftMotors,
             pidCtrlTurn = new PIDController<double>(DriveConstants::TURN_KP, 
                                       DriveConstants::TURN_KI, 
                                       DriveConstants::TURN_KD);
+            odom = new DrivebaseOdometry(leftMotors,
+                rightMotors,pros::E_MOTOR_GEAR_600,12.376);
             odom->init();
 }
 
@@ -39,9 +39,11 @@ TankDrive::~TankDrive() {
 
 void TankDrive::runAuton() {
     while (true) {
+        Pose currentPose;
+        odom->getPose(&currentPose);
         int16_t maxMotorMag = getInputExtremeForGearset((pros::motor_gearset_e)leftMotorGroup.get_gearing());
-        int16_t pidValMove = std::clamp((int16_t)pidCtrlMove->compute(*setPoint, odom->getPose()), (int16_t)(maxMotorMag * -1), maxMotorMag);
-        int16_t pidValTurn = std::clamp((int16_t)pidCtrlTurn->compute(setPoint->theta, odom->getPose().theta), (int16_t)(maxMotorMag * -1), maxMotorMag);
+        int16_t pidValMove = std::clamp((int16_t)pidCtrlMove->compute(*setPoint, currentPose), (int16_t)(maxMotorMag * -1), maxMotorMag);
+        int16_t pidValTurn = std::clamp((int16_t)pidCtrlTurn->compute(setPoint->theta, currentPose.theta), (int16_t)(maxMotorMag * -1), maxMotorMag);
         int16_t motorValLeft = pidValMove + pidValTurn;
         int16_t motorValRight = pidValMove - pidValTurn;
 
@@ -165,9 +167,9 @@ void TankDrive::arcadeDrive() {
 
         rightMotorGroup.move((int)rightSpeed);
         leftMotorGroup.move((int)leftSpeed);
-
-        Pose currentPose = odom->getPose();
-        printf("x: %f, y: %f, theta: %f", currentPose.x, currentPose.y, currentPose.theta);
+        Pose currentPose;
+        odom->getPose(&currentPose);
+        // printf("x: %f, y: %f, theta: %f\n", currentPose.x, currentPose.y, currentPose.theta);
 
         pros::delay(20);
     }

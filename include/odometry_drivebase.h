@@ -19,8 +19,8 @@ class DrivebaseOdometry : public Odometry
     private:
         pros::MotorGroup leftMotorGroup;
         pros::MotorGroup rightMotorGroup;
-        uint32_t leftMotorGroupLastPos;
-        uint32_t rightMotorGroupLastPos;
+        double leftMotorGroupLastPos;
+        double rightMotorGroupLastPos;
         double dW;
 };
 

@@ -50,9 +50,9 @@ void LadyBrown::runLadyBrown() {
         macroForwardToggle.update();
         macroBackToggle.update();
         if (ctrl.get_digital(upButton)) {
-            setPoint += 1200;
+            setPoint += 600;
         } else if (ctrl.get_digital(downButton)) {
-            setPoint -= 1200;
+            setPoint -= 600;
         } else {
             if (macroForwardToggle.getCurrentState()) {
                 if (setPoint == armedSetPoint) {
@@ -75,6 +75,7 @@ void LadyBrown::runLadyBrown() {
             }
         }
         int16_t maxMotorMag = getInputExtremeForGearset((pros::motor_gearset_e)armMotor.get_gearing());
+        printf("setpoint: %d\n", setPoint);
         double pidVal = std::clamp((int16_t)pidCtrl->compute((double)setPoint, (double)rotSensor.get_position()), (int16_t)(maxMotorMag * -1), maxMotorMag);
         armMotor.move(pidVal);
         pros::delay(20);

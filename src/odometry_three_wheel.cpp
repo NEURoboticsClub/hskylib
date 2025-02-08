@@ -42,18 +42,18 @@ void OdometryThreeWheel::updatePose() {
         localOffsetY = (dR / deltaThetaRad) + sR;
     }
     
-    double thetaM = currentPose.theta + (deltaThetaRad / 2.0);
+    double thetaM = currentPose->theta + (deltaThetaRad / 2.0);
 
     double dX = (localOffsetX * cos(thetaM)) - (localOffsetY * sin(thetaM));
     double dY = (localOffsetX * sin(thetaM)) + (localOffsetY * cos(thetaM));
 
-    double x = currentPose.x + dX;
-    double y = currentPose.y + dY;
-    double theta = currentPose.theta + deltaThetaRad;
+    double x = currentPose->x + dX;
+    double y = currentPose->y + dY;
+    double theta = currentPose->theta + deltaThetaRad;
 
-    currentPose.x = x;
-    currentPose.y = y;
-    currentPose.theta = theta;
+    currentPose->x = x;
+    currentPose->y = y;
+    currentPose->theta = theta;
 
     leftEncoderLastPos = leftEncoderNewPos;
     rightEncoderLastPos = rightEncoderNewPos;
