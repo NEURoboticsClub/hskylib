@@ -55,7 +55,7 @@ void autonomous() {}
 void opcontrol() {
 	printf("starting opcontrol");
 	pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
-	RobotConfig config = hsky2Config;
+	RobotConfig config = hsky1Config;
 
 	TankDrive tankdrive(config.ports.drivebase.brainside, config.ports.drivebase.batteryside, ctrl, config.drivebaseBrakeMode, config.drivebaseGearset, config.drivebaseSpeedMultiplier);
 	

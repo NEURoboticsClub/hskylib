@@ -89,18 +89,18 @@ static DrivebasePorts hsky1DrivebasePorts = {
 };
 
 static TransportPorts hsky1Intake = {
+    {21}, // brainside
+    {-7} // batteryside
+};
+
+static TransportPorts hsky1Scoring = {
     {15}, // brainside
     {-11} // batteryside
 };
 
-static TransportPorts hsky1Scoring = {
-    {8}, // brainside
-    {-14} // batteryside
-};
-
 static LadyBrownPorts hsky1LadyBrown = {
     17,
-    13
+    8
 };
 
 static PortAssignments hsky1Ports = {
@@ -130,19 +130,19 @@ static RobotConfig hsky1Config = {
     pros::E_CONTROLLER_DIGITAL_X,
 	pros::E_CONTROLLER_DIGITAL_B,
     pros::E_MOTOR_BRAKE_HOLD,
-    pros::E_MOTOR_GEAR_200,
+    pros::E_MOTOR_GEAR_100,
     pros::E_CONTROLLER_DIGITAL_UP,
     pros::E_CONTROLLER_DIGITAL_DOWN,
     pros::E_CONTROLLER_DIGITAL_LEFT,
     pros::E_CONTROLLER_DIGITAL_RIGHT,
     pros::E_CONTROLLER_DIGITAL_LEFT, // TODO: fix button and sensor port assignments for lady brown
     0.6,
-    0.005,
+    0.01,
     0.0,
-    0.0,
+    0.00,
     0,
-    0,
-    0
+    7500,
+    40000
 };
 
 static DrivebasePorts hsky2DrivebasePorts = {
