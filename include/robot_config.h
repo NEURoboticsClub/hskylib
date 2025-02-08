@@ -127,8 +127,8 @@ static RobotConfig hsky1Config = {
     pros::E_CONTROLLER_DIGITAL_R1,
     pros::E_CONTROLLER_DIGITAL_R2,
     0.25,
-    pros::E_CONTROLLER_DIGITAL_X,
-	pros::E_CONTROLLER_DIGITAL_B,
+    pros::E_CONTROLLER_DIGITAL_B,
+	pros::E_CONTROLLER_DIGITAL_X,
     pros::E_MOTOR_BRAKE_HOLD,
     pros::E_MOTOR_GEAR_100,
     pros::E_CONTROLLER_DIGITAL_UP,
@@ -141,7 +141,7 @@ static RobotConfig hsky1Config = {
     0.0,
     0.00,
     0,
-    7500,
+    7800,
     40000
 };
 
