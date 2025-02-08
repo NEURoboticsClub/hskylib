@@ -90,7 +90,7 @@ static DrivebasePorts hsky1DrivebasePorts = {
 
 static TransportPorts hsky1Intake = {
     {21}, // brainside
-    {-7} // batteryside
+    {-8} // batteryside
 };
 
 static TransportPorts hsky1Scoring = {
@@ -100,7 +100,7 @@ static TransportPorts hsky1Scoring = {
 
 static LadyBrownPorts hsky1LadyBrown = {
     17,
-    8
+    21
 };
 
 static PortAssignments hsky1Ports = {

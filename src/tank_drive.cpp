@@ -41,6 +41,7 @@ void TankDrive::runAuton() {
     while (true) {
         Pose currentPose;
         odom->getPose(&currentPose);
+        setPoint->theta = atan2((setPoint->y - currentPose.y), (setPoint->x - currentPose.x));
         int16_t maxMotorMag = getInputExtremeForGearset((pros::motor_gearset_e)leftMotorGroup.get_gearing());
         int16_t pidValMove = std::clamp((int16_t)pidCtrlMove->compute(*setPoint, currentPose), (int16_t)(maxMotorMag * -1), maxMotorMag);
         int16_t pidValTurn = std::clamp((int16_t)pidCtrlTurn->compute(setPoint->theta, currentPose.theta), (int16_t)(maxMotorMag * -1), maxMotorMag);
