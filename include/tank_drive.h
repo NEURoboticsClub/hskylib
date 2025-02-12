@@ -35,7 +35,8 @@ public:
         pros::Controller& ctrl,
         pros::motor_brake_mode_e brakeMode,
         pros::motor_gearset_e gearset,
-        double speedMultiplier);
+        double speedMultiplier,
+        Odometry* odom);
     
     ~TankDrive();
 

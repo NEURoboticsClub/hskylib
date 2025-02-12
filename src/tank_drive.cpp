@@ -8,11 +8,13 @@ TankDrive::TankDrive(std::vector<int8_t> leftMotors,
     pros::Controller& ctrl,
     pros::motor_brake_mode_e brakeMode,
     pros::motor_gearset_e gearset,
-    double speedMultiplier)
+    double speedMultiplier,
+    Odometry* odom)
         : controller(ctrl),
         speedMultiplier(speedMultiplier),
         leftMotorGroup(leftMotors),
-        rightMotorGroup(rightMotors) {
+        rightMotorGroup(rightMotors),
+        odom(odom) {
             leftMotorGroup.set_brake_mode_all(brakeMode);
             rightMotorGroup.set_brake_mode_all(brakeMode);
             leftMotorGroup.set_gearing_all(gearset);
@@ -25,8 +27,6 @@ TankDrive::TankDrive(std::vector<int8_t> leftMotors,
             pidCtrlTurn = new PIDController<double>(DriveConstants::TURN_KP, 
                                       DriveConstants::TURN_KI, 
                                       DriveConstants::TURN_KD);
-            odom = new DrivebaseOdometry(leftMotors,
-                rightMotors,pros::E_MOTOR_GEAR_600,12.376);
             odom->init();
 }
 
