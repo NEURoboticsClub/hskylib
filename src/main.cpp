@@ -37,7 +37,9 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -54,61 +56,17 @@ void autonomous() {}
  */
 void opcontrol() {
 	printf("starting opcontrol");
-	pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
-	RobotConfig config = hsky1Config;
-
-	TankDrive tankdrive(config.ports.drivebase.brainside, config.ports.drivebase.batteryside, ctrl, config.drivebaseBrakeMode, config.drivebaseGearset, config.drivebaseSpeedMultiplier);
 	
 	// tankdrive.driveToPoint(6.0,6.0);
 	// tankdrive.runAuton();
 
 	tankdrive.initialize(config.driveStyle);
-
-	Transport intake(config.ports.intake.brainside,
-        config.ports.intake.batteryside,
-        ctrl,
-        config.intakeBrakeMode,
-        config.intakeGearset,
-        config.intakeInButton,
-        config.intakeOutButton,
-        config.intakeDutyCycle);
 	
 	intake.initialize();
-
-	Transport scoring(config.ports.scoring.brainside,
-        config.ports.scoring.batteryside,
-        ctrl,
-        config.scoringBrakeMode,
-        config.scoringGearset,
-        config.scoringInButton,
-        config.scoringOutButton,
-        config.scoringDutyCycle);
 	
 	scoring.initialize();
 
-	Pneumatics mogoClamp(config.ports.pneumatics,
-		config.pneumaticsExtendButton,
-		config.pneumaticsRetractButton,
-		ctrl);
-
 	mogoClamp.initialize();
-
-	LadyBrown ladyBrown(config.ports.lady_brown.arm,
-		config.ports.lady_brown.sensor,
-		ctrl,
-		config.ladyBrownBrakeMode,
-        config.ladyBrownGearset,
-        config.ladyBrownUpButton,
-        config.ladyBrownDownButton,
-		pros::E_CONTROLLER_DIGITAL_RIGHT,
-		pros::E_CONTROLLER_DIGITAL_LEFT,
-        config.ladyBrownDutyCycle,
-		config.ladyBrownkP,
-		config.ladyBrownkI,
-		config.ladyBrownkD,
-		config.ladyBrownEaseSetPoint,
-		config.ladyBrownArmedSetPoint,
-		config.ladyBrownFireSetPoint);
 	
 	ladyBrown.initialize();
 

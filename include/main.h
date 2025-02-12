@@ -42,6 +42,7 @@
 #include "pneumatics.h"
 #include "robot_config.h"
 #include "odometry.h"
+#include "subsystems.h"
 
 /**
  * You should add more #includes here
