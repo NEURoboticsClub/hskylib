@@ -59,6 +59,9 @@ void opcontrol() {
 
 	TankDrive tankdrive(config.ports.drivebase.brainside, config.ports.drivebase.batteryside, ctrl, config.drivebaseBrakeMode, config.drivebaseGearset, config.drivebaseSpeedMultiplier);
 	
+	// tankdrive.driveToPoint(6.0,6.0);
+	// tankdrive.runAuton();
+
 	tankdrive.initialize(config.driveStyle);
 
 	Transport intake(config.ports.intake.brainside,
