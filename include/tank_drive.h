@@ -19,6 +19,7 @@ private:
     Odometry* odom;
     Pose* setPoint = new Pose(0.0,0.0,0.0);
     pros::Task* currentTask;
+    PIDMode pidMode;
     
     // PID Controllers
     PIDController<Pose>* pidCtrlMove;
@@ -35,8 +36,7 @@ public:
         pros::Controller& ctrl,
         pros::motor_brake_mode_e brakeMode,
         pros::motor_gearset_e gearset,
-        double speedMultiplier,
-        Odometry* odom);
+        double speedMultiplier);
     
     ~TankDrive();
 
@@ -47,6 +47,7 @@ public:
     void initAuton();
     void driveToPose(Pose* targetPose);
     void turnToHeading(double targetHeadingDegrees);
+    void driveDistance(double distIn);
     void driveToPoint(double targetX, double targetY);
 };
 

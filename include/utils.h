@@ -12,6 +12,13 @@ enum DriveStyle {
     TANK
 };
 
+enum PIDMode {
+    DRIVING,
+    TURNING,
+    COMBINED,
+    OFF
+};
+
 enum ExceptionCode {
     INVALID_ARGUMENT = 0
 };

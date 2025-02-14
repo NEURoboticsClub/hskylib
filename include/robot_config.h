@@ -151,8 +151,8 @@ static DrivebasePorts hsky2DrivebasePorts = {
 };
 
 static TransportPorts hsky2Intake = {
-    {16}, // brainside
-    {-6} // batteryside
+    {-16}, // brainside
+    {6} // batteryside
 };
 
 static TransportPorts hsky2Scoring = {

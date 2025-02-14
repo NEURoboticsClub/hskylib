@@ -57,7 +57,8 @@ void opcontrol() {
 	printf("starting opcontrol");
 	
 	// tankdrive.driveToPoint(6.0,6.0);
-	// tankdrive.runAuton();
+	// tankdrive.turnToHeading(90.0);
+	// tankdrive.initAuton();
 
 	tankdrive.initialize(config.driveStyle);
 	
