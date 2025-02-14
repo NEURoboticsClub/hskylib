@@ -84,18 +84,18 @@ struct RobotConfig {
 };
 
 static DrivebasePorts hsky1DrivebasePorts = {
-    {-13, -3},
-    {4, 5}
+    {-12, -11, 13},
+    {2, 1, -3}
 };
 
 static TransportPorts hsky1Intake = {
     {21}, // brainside
-    {-2} // batteryside
+    {-18} // batteryside
 };
 
 static TransportPorts hsky1Scoring = {
     {15}, // brainside
-    {-11} // batteryside
+    {-16} // batteryside
 };
 
 static LadyBrownPorts hsky1LadyBrown = {

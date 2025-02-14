@@ -48,20 +48,26 @@ void TankDrive::runAuton() {
         int16_t pidValTurn = 0;
         int16_t maxMotorMag = getInputExtremeForGearset((pros::motor_gearset_e)leftMotorGroup.get_gearing());
         odom->getPose(&currentPose);
-        printf("setpoint x: %f, y: %f, theta: %f\n", setPoint->x, setPoint->y, setPoint->theta);
-        printf("current x: %f, y: %f, theta: %f\n", currentPose.x, currentPose.y, currentPose.theta);
+        // printf("setpoint x: %f, y: %f, theta: %f\n", setPoint->x, setPoint->y, setPoint->theta);
+        // printf("current x: %f, y: %f, theta: %f\n", currentPose.x, currentPose.y, currentPose.theta);
         if (pidMode == COMBINED) {
             setPoint->theta = atan2((setPoint->y - currentPose.y), (setPoint->x - currentPose.x));
         }
         if (pidMode == DRIVING || pidMode == COMBINED) {
-            pidValMove = std::clamp((int16_t)pidCtrlMove->compute(*setPoint, currentPose), (int16_t)((double)maxMotorMag * -1.0 * 0.5), (int16_t)((double)maxMotorMag * 0.5));
+            double moveComputation = pidCtrlMove->compute(*setPoint, currentPose);
+            printf("move: %f\n", moveComputation);
+            pidValMove = std::clamp(moveComputation, ((double)maxMotorMag * -1.0 * 0.5), ((double)maxMotorMag * 0.5));
         }
         if (pidMode == TURNING || pidMode == COMBINED) {
-            pidValTurn = std::clamp((int16_t)pidCtrlTurn->compute(setPoint->theta, currentPose.theta), (int16_t)((double)maxMotorMag * -1.0 * 0.5), (int16_t)((double)maxMotorMag * 0.5));
+            double turnComputation = pidCtrlTurn->compute(setPoint->theta, currentPose.theta);
+            printf("turn: %f\n", turnComputation);
+            pidValTurn = std::clamp(turnComputation, ((double)maxMotorMag * -1.0 * 0.5), ((double)maxMotorMag * 0.5));
         }
-        
+
         int16_t motorValLeft = pidValMove - pidValTurn;
         int16_t motorValRight = pidValMove + pidValTurn;
+        printf("left motors: %d\n",motorValLeft);
+        printf("right motors: %d\n",motorValRight);
 
         if (pidMode != OFF) {
             leftMotorGroup.move(motorValLeft);

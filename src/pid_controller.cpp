@@ -8,7 +8,13 @@ PIDController<T>::PIDController(double kp, double ki, double kd)
 
 template<>
 double PIDController<Pose>::compute(Pose setpoint, Pose current_value) {
-    double error = sqrt(((setpoint.x - current_value.x) * (setpoint.x - current_value.x)) + ((setpoint.y - current_value.y) * (setpoint.y - current_value.y)));
+    double sign = 1.0;
+    
+    if (((setpoint.y - current_value.y) / (setpoint.x - current_value.x)) < 0.0) {
+        sign = -1.0;
+    }
+
+    double error = sign * sqrt(pow((setpoint.x - current_value.x), 2.0) + pow((setpoint.y - current_value.y), 2.0));
 
     double proportional = kp_ * error;
 

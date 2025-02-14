@@ -14,7 +14,7 @@
 #include "odometry_drivebase.h"
 
 pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
-RobotConfig config = hsky2Config;
+RobotConfig config = hsky1Config;
 // Odometry odom = DrivebaseOdometry(config.ports.intake.brainside,
 //     config.ports.intake.batteryside,
 //     pros::E_MOTOR_GEAR_600,
