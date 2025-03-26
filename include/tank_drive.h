@@ -9,6 +9,7 @@
 #include "odometry_drivebase.h"
 #include "odometry.h"
 #include "pose.h"
+#include "robot_config.h"
 
 class TankDrive {
 private:
@@ -31,12 +32,8 @@ private:
     void runAuton();
 
 public:
-    TankDrive(std::vector<int8_t> leftMotors,
-        std::vector<int8_t> rightMotors,
-        pros::Controller& ctrl,
-        pros::motor_brake_mode_e brakeMode,
-        pros::motor_gearset_e gearset,
-        double speedMultiplier);
+    TankDrive(DrivebaseConfig config,
+        pros::Controller& ctrl);
     
     ~TankDrive();
 

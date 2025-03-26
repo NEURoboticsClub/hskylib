@@ -15,51 +15,14 @@
 
 pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
 RobotConfig config = hsky1Config;
-// Odometry odom = DrivebaseOdometry(config.ports.intake.brainside,
-//     config.ports.intake.batteryside,
-//     pros::E_MOTOR_GEAR_600,
-//     12.376);
-TankDrive tankdrive(config.ports.drivebase.brainside,
-    config.ports.drivebase.batteryside,
-    ctrl,
-    config.drivebaseBrakeMode,
-    config.drivebaseGearset,
-    config.drivebaseSpeedMultiplier);
-Transport intake(config.ports.intake.brainside,
-    config.ports.intake.batteryside,
-    ctrl,
-    config.intakeBrakeMode,
-    config.intakeGearset,
-    config.intakeInButton,
-    config.intakeOutButton,
-    config.intakeDutyCycle);
-Transport scoring(config.ports.scoring.brainside,
-    config.ports.scoring.batteryside,
-    ctrl,
-    config.scoringBrakeMode,
-    config.scoringGearset,
-    config.scoringInButton,
-    config.scoringOutButton,
-    config.scoringDutyCycle);
-Pneumatics mogoClamp(config.ports.pneumatics,
-    config.pneumaticsExtendButton,
-    config.pneumaticsRetractButton,
+TankDrive tankdrive(config.drivebase, ctrl);
+Transport intake(config.intake,
     ctrl);
-LadyBrown ladyBrown(config.ports.lady_brown.arm,
-    config.ports.lady_brown.sensor,
-    ctrl,
-    config.ladyBrownBrakeMode,
-    config.ladyBrownGearset,
-    config.ladyBrownUpButton,
-    config.ladyBrownDownButton,
-    pros::E_CONTROLLER_DIGITAL_RIGHT,
-    pros::E_CONTROLLER_DIGITAL_LEFT,
-    config.ladyBrownDutyCycle,
-    config.ladyBrownkP,
-    config.ladyBrownkI,
-    config.ladyBrownkD,
-    config.ladyBrownEaseSetPoint,
-    config.ladyBrownArmedSetPoint,
-    config.ladyBrownFireSetPoint);
+Transport scoring(config.scoring,
+    ctrl);
+Pneumatics mogoClamp(config.mogoClamp,
+    ctrl);
+LadyBrown ladyBrown(config.ladyBrown,
+    ctrl);
 
 #endif

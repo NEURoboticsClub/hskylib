@@ -3,6 +3,7 @@
 
 #include "api.h"
 #include "toggle.h"
+#include "robot_config.h"
 
 class Pneumatics {
 private:
@@ -15,9 +16,7 @@ private:
     void startPneumatics();
 
 public:
-    Pneumatics(char pistonPort,
-        pros::controller_digital_e_t extendButton,
-        pros::controller_digital_e_t retractButton,
+    Pneumatics(PneumaticsConfig config,
         pros::Controller& ctrl);
 
     // initialize and start the task

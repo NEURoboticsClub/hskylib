@@ -1,11 +1,9 @@
 #include "pneumatics.h"
 
 // constructor
-Pneumatics::Pneumatics(char pistonPort,
-    pros::controller_digital_e_t extendButton,
-    pros::controller_digital_e_t retractButton,
+Pneumatics::Pneumatics(PneumaticsConfig config,
     pros::Controller& ctrl)
-        : ctrl(ctrl), extendButton(extendButton), retractButton(retractButton), piston(pistonPort) {
+        : ctrl(ctrl), extendButton(config.extendButton), retractButton(config.retractButton), piston(config.port) {
 }
 
 void Pneumatics::startPneumatics() {

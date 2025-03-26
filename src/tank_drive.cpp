@@ -3,34 +3,30 @@
 #include "drive_constants.h"
 
 // constructor
-TankDrive::TankDrive(std::vector<int8_t> leftMotors,
-    std::vector<int8_t> rightMotors,
-    pros::Controller& ctrl,
-    pros::motor_brake_mode_e brakeMode,
-    pros::motor_gearset_e gearset,
-    double speedMultiplier)
+TankDrive::TankDrive(DrivebaseConfig config,
+    pros::Controller& ctrl)
         : controller(ctrl),
-        speedMultiplier(speedMultiplier),
-        leftMotorGroup(leftMotors),
-        rightMotorGroup(rightMotors),
+        speedMultiplier(config.speedMultiplier),
+        leftMotorGroup(config.brainside),
+        rightMotorGroup(config.batteryside),
         pidMode(OFF) {
-            leftMotorGroup.set_brake_mode_all(brakeMode);
-            rightMotorGroup.set_brake_mode_all(brakeMode);
-            leftMotorGroup.set_gearing_all(gearset);
-            rightMotorGroup.set_gearing_all(gearset);
+            leftMotorGroup.set_brake_mode_all(config.brakeMode);
+            rightMotorGroup.set_brake_mode_all(config.brakeMode);
+            leftMotorGroup.set_gearing_all(config.gearset);
+            rightMotorGroup.set_gearing_all(config.gearset);
             
             // Initialize PID controllers
-            pidCtrlMove = new PIDController<Pose>(DriveConstants::DRIVE_KP, 
-                                       DriveConstants::DRIVE_KI, 
-                                       DriveConstants::DRIVE_KD);
-            pidCtrlTurn = new PIDController<double>(DriveConstants::TURN_KP, 
-                                      DriveConstants::TURN_KI, 
-                                      DriveConstants::TURN_KD);
+            pidCtrlMove = new PIDController<Pose>(config.autonConstants.kPDrive,
+                                    config.autonConstants.kIDrive,
+                                    config.autonConstants.kDDrive);
+            pidCtrlTurn = new PIDController<double>(config.autonConstants.kPTurn,
+                                    config.autonConstants.kITurn,
+                                    config.autonConstants.kDTurn);
             
-            odom = new DrivebaseOdometry(leftMotors,
-                rightMotors,
-                gearset,
-                12.376);
+            odom = new DrivebaseOdometry(config.brainside,
+                config.batteryside,
+                config.gearset,
+                config.autonConstants.trackWidthIn);
             odom->init();
 }
 
@@ -91,7 +87,7 @@ void TankDrive::driveToPose(Pose* targetPose) {
 
 void TankDrive::turnToHeading(double targetHeadingDegrees) {
     pidMode = TURNING;
-    setPoint->theta = (targetHeadingDegrees * 3.14159) / 180.0;
+    setPoint->theta = (targetHeadingDegrees * M_PI) / 180.0;
 }
 
 void TankDrive::driveToPoint(double targetX, double targetY) {

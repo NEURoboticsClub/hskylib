@@ -9,7 +9,7 @@ namespace DriveConstants {
     constexpr double TICKS_PER_REV = 300.0*57.0/39.0; // encoder ticks per revolution
     
     // PID Constants for driving straight
-    constexpr double DRIVE_KP = 10.0; 
+    constexpr double DRIVE_KP = 10.0;
     constexpr double DRIVE_KI = 0.0;
     constexpr double DRIVE_KD = 0.0;
     

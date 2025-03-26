@@ -2,39 +2,25 @@
 #include "utils.h"
 
 // constructor
-LadyBrown::LadyBrown(int8_t armMotorPort,
-    int8_t sensorPort,
-    pros::Controller& ctrl,
-    pros::motor_brake_mode_e brakeMode,
-    pros::motor_gearset_e gearset,
-    pros::controller_digital_e_t upButton,
-    pros::controller_digital_e_t downButton,
-    pros::controller_digital_e_t macroForwardButton,
-    pros::controller_digital_e_t macroBackButton,
-    double motorDutyCycle,
-    double kP,
-    double kI,
-    double kD,
-    int32_t easeSetPoint,
-    int32_t armedSetPoint,
-    int32_t fireSetPoint)
+LadyBrown::LadyBrown(LadyBrownConfig config,
+    pros::Controller& ctrl)
         : ctrl(ctrl),
-        upButton(upButton),
-        downButton(downButton),
-        macroForwardToggle(ctrl, macroForwardButton),
-        macroBackToggle(ctrl, macroBackButton),
-        motorDutyCycle(motorDutyCycle),
-        armMotor(armMotorPort),
-        rotSensor(sensorPort),
-        easeSetPoint(easeSetPoint),
-        armedSetPoint(armedSetPoint),
-        fireSetPoint(fireSetPoint) {
-            armMotor.set_brake_mode(brakeMode);
-            armMotor.set_gearing(gearset);
+        upButton(config.upButton),
+        downButton(config.downButton),
+        macroForwardToggle(ctrl, config.macroForwardButton),
+        macroBackToggle(ctrl, config.macroBackButton),
+        motorDutyCycle(config.dutyCycle),
+        armMotor(config.armPort),
+        rotSensor(config.sensorPort),
+        easeSetPoint(config.easeSetPoint),
+        armedSetPoint(config.armedSetPoint),
+        fireSetPoint(config.fireSetPoint) {
+            armMotor.set_brake_mode(config.brakeMode);
+            armMotor.set_gearing(config.gearset);
             setPoint = 0;
             rotSensor.set_reversed(true);
             rotSensor.reset_position();
-            pidCtrl = new PIDController<double>(kP,kI,kD);
+            pidCtrl = new PIDController<double>(config.kP,config.kI,config.kD);
 }
 
 LadyBrown::~LadyBrown() {

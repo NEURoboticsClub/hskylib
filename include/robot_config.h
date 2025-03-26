@@ -5,137 +5,140 @@
 #include "utils.h"
 #include <vector>
 
-struct DrivebasePorts {
+struct AutonConstants {
+    double wheelDiameterIn;
+    double trackWidthIn;
+    double ticksPerRev; // encoder ticks per revolution
+    
+    double kPDrive; 
+    double kIDrive;
+    double kDDrive;
+    
+    double kPTurn;
+    double kITurn;
+    double kDTurn;
+    
+    double driveToleranceIn;
+    double turnToleranceDeg;
+    
+    double maxDriveVelocityDutyCycle;  // velocity units
+    double maxTurnVelocityDutyCycle;   // velocity units
+};
+
+struct DrivebaseConfig {
     std::vector<int8_t> brainside;
     std::vector<int8_t> batteryside;
+    pros::motor_brake_mode_e brakeMode;
+    pros::motor_gearset_e gearset;
+    DriveStyle driveStyle;
+    double speedMultiplier; // 0.0 to 1.0
+    AutonConstants autonConstants;
 };
 
-struct TransportPorts {
-    std::vector<int8_t> brainside;
-    std::vector<int8_t> batteryside;
+struct TransportConfig {
+    std::vector<int8_t> motors;
+    pros::motor_brake_mode_e brakeMode;
+    pros::motor_gearset_e gearset;
+    pros::controller_digital_e_t inButton;
+    pros::controller_digital_e_t outButton;
+    double dutyCycle;
 };
 
-struct LadyBrownPorts {
-    int8_t arm;
-    int8_t sensor;
+struct PneumaticsConfig {
+    char port;
+    pros::controller_digital_e_t extendButton;
+    pros::controller_digital_e_t retractButton;
 };
 
-struct PortAssignments {
-    DrivebasePorts drivebase;
-    TransportPorts intake;
-    TransportPorts scoring;
-    LadyBrownPorts lady_brown;
-    char pneumatics;
+struct LadyBrownConfig {
+    int8_t armPort;
+    int8_t sensorPort;
+    pros::motor_brake_mode_e brakeMode;
+    pros::motor_gearset_e gearset;
+    pros::controller_digital_e_t upButton;
+    pros::controller_digital_e_t downButton;
+    pros::controller_digital_e_t macroForwardButton;
+    pros::controller_digital_e_t macroBackButton;
+    double dutyCycle;
+    double kP;
+    double kI;
+    double kD;
+    uint32_t easeSetPoint;
+    uint32_t armedSetPoint;
+    uint32_t fireSetPoint;
 };
-
-// struct DriveConstants {
-//     double WHEEL_DIAMETER = 3.25;  // inches
-//     double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * M_PI;
-//     double TRACK_WIDTH = 12.376;    // distance between wheels in inches
-//     double TICKS_PER_REV = 300.0*57.0/39.0; // encoder ticks per revolution
-    
-//     double kPDrive = 1; 
-//     double kIDrive = 0.0;
-//     double kDDrive = 0.1;
-    
-//     double kPTurn = 2;
-//     double kITurn = 0.05;
-//     double kDTurn = 0.1;
-    
-//     double driveTolerance = 0.5;  // inches
-//     double turnTolerance = 1.0;   // degrees
-    
-//     double maxDriveVelocityDutyCycle = 1.0;  // velocity units
-//     double maxTurnVelocityDutyCycle = 1.0;   // velocity units
-// };
 
 struct RobotConfig {
-    PortAssignments ports;
-    pros::motor_brake_mode_e drivebaseBrakeMode;
-    pros::motor_gearset_e drivebaseGearset;
-    DriveStyle driveStyle;
-    double drivebaseSpeedMultiplier; // 0.0 to 1.0
-    pros::motor_brake_mode_e intakeBrakeMode;
-    pros::motor_gearset_e intakeGearset;
-    pros::controller_digital_e_t intakeInButton;
-    pros::controller_digital_e_t intakeOutButton;
-    double intakeDutyCycle;
-    pros::motor_brake_mode_e scoringBrakeMode;
-    pros::motor_gearset_e scoringGearset;
-    pros::controller_digital_e_t scoringInButton;
-    pros::controller_digital_e_t scoringOutButton;
-    double scoringDutyCycle;
-    pros::controller_digital_e_t pneumaticsExtendButton;
-    pros::controller_digital_e_t pneumaticsRetractButton;
-    pros::motor_brake_mode_e ladyBrownBrakeMode;
-    pros::motor_gearset_e ladyBrownGearset;
-    pros::controller_digital_e_t ladyBrownUpButton;
-    pros::controller_digital_e_t ladyBrownDownButton;
-    pros::controller_digital_e_t ladyBrownEaseButton;
-    pros::controller_digital_e_t ladyBrownArmedButton;
-    pros::controller_digital_e_t ladyBrownFireButton;
-    double ladyBrownDutyCycle;
-    double ladyBrownkP;
-    double ladyBrownkI;
-    double ladyBrownkD;
-    uint32_t ladyBrownEaseSetPoint;
-    uint32_t ladyBrownArmedSetPoint;
-    uint32_t ladyBrownFireSetPoint;
+    DrivebaseConfig drivebase;
+    TransportConfig intake;
+    TransportConfig scoring;
+    PneumaticsConfig mogoClamp;
+    LadyBrownConfig ladyBrown;
 };
 
-static DrivebasePorts hsky1DrivebasePorts = {
+static AutonConstants hsky1AutonConstants = {
+    3.25,
+    12.376,
+    300.0*57.0/39.0, // encoder ticks per revolution
+    
+    1, 
+    0.0,
+    0.1,
+    
+    2,
+    0.05,
+    0.1,
+    
+    0.5,
+    1.0,
+    
+    1.0,  // velocity units
+    1.0   // velocity units
+};
+
+static DrivebaseConfig hsky1Drivebase = {
     {-12, -11, 13},
-    {2, 1, -3}
-};
-
-static TransportPorts hsky1Intake = {
-    {21}, // brainside
-    {-18} // batteryside
-};
-
-static TransportPorts hsky1Scoring = {
-    {15}, // brainside
-    {-16} // batteryside
-};
-
-static LadyBrownPorts hsky1LadyBrown = {
-    21,
-    21
-};
-
-static PortAssignments hsky1Ports = {
-    hsky1DrivebasePorts,
-    hsky1Intake,
-    hsky1Scoring,
-    hsky1LadyBrown,
-    'a',    // pneumatics
-};
-
-static RobotConfig hsky1Config = {
-    hsky1Ports,
+    {2, 1, -3},
     pros::E_MOTOR_BRAKE_COAST,
     pros::E_MOTOR_GEAR_600,
     ARCADE,
     0.25,
+    hsky1AutonConstants
+};
+
+static TransportConfig hsky1Intake = {
+    {21, -18},
     pros::E_MOTOR_BRAKE_COAST,
     pros::E_MOTOR_GEAR_600,
     pros::E_CONTROLLER_DIGITAL_L1,
     pros::E_CONTROLLER_DIGITAL_L2,
-    1.0,
+    1.0
+};
+
+static TransportConfig hsky1Scoring = {
+    {15, -16},
     pros::E_MOTOR_BRAKE_COAST,
     pros::E_MOTOR_GEAR_600,
     pros::E_CONTROLLER_DIGITAL_R1,
     pros::E_CONTROLLER_DIGITAL_R2,
-    0.25,
+    0.25
+};
+
+static PneumaticsConfig hsky1MogoClamp = {
+    'a',
     pros::E_CONTROLLER_DIGITAL_B,
-	pros::E_CONTROLLER_DIGITAL_X,
+	pros::E_CONTROLLER_DIGITAL_X
+};
+
+static LadyBrownConfig hsky1LadyBrown = {
+    21,
+    21,
     pros::E_MOTOR_BRAKE_HOLD,
     pros::E_MOTOR_GEAR_100,
     pros::E_CONTROLLER_DIGITAL_UP,
     pros::E_CONTROLLER_DIGITAL_DOWN,
-    pros::E_CONTROLLER_DIGITAL_LEFT,
     pros::E_CONTROLLER_DIGITAL_RIGHT,
-    pros::E_CONTROLLER_DIGITAL_LEFT, // TODO: fix button and sensor port assignments for lady brown
+    pros::E_CONTROLLER_DIGITAL_LEFT,
     0.6,
     0.01,
     0.0,
@@ -145,59 +148,77 @@ static RobotConfig hsky1Config = {
     40000
 };
 
-static DrivebasePorts hsky2DrivebasePorts = {
+static RobotConfig hsky1Config = {
+    hsky1Drivebase,
+    hsky1Intake,
+    hsky1Scoring,
+    hsky1MogoClamp,
+    hsky1LadyBrown
+};
+
+static AutonConstants hsky2AutonConstants = {
+    3.25,
+    12.376,
+    300.0*57.0/39.0, // encoder ticks per revolution
+    
+    1, 
+    0.0,
+    0.1,
+    
+    2,
+    0.05,
+    0.1,
+    
+    0.5,
+    1.0,
+    
+    1.0,  // velocity units
+    1.0   // velocity units
+};
+
+static DrivebaseConfig hsky2Drivebase = {
     {-10, -1, 18},
-    {4, 5, -2}
-};
-
-static TransportPorts hsky2Intake = {
-    {-16}, // brainside
-    {6} // batteryside
-};
-
-static TransportPorts hsky2Scoring = {
-    {9}, // brainside
-    {-14} // batteryside
-};
-
-static LadyBrownPorts hsky2LadyBrown = {
-    19,
-    20
-};
-
-static PortAssignments hsky2Ports = {
-    hsky2DrivebasePorts,
-    hsky2Intake,
-    hsky2Scoring,
-    hsky2LadyBrown,
-    'a',    // pneumatics
-};
-
-static RobotConfig hsky2Config = {
-    hsky2Ports,
+    {4, 5, -2},
     pros::E_MOTOR_BRAKE_COAST,
     pros::E_MOTOR_GEAR_600,
     ARCADE,
     0.25,
+    hsky2AutonConstants
+};
+
+static TransportConfig hsky2Intake = {
+    {-16,6},
     pros::E_MOTOR_BRAKE_COAST,
     pros::E_MOTOR_GEAR_600,
     pros::E_CONTROLLER_DIGITAL_L1,
     pros::E_CONTROLLER_DIGITAL_L2,
-    1.0,
+    1.0
+};
+
+static TransportConfig hsky2Scoring = {
+    {9,-14},
     pros::E_MOTOR_BRAKE_COAST,
     pros::E_MOTOR_GEAR_600,
     pros::E_CONTROLLER_DIGITAL_R1,
     pros::E_CONTROLLER_DIGITAL_R2,
-    0.25,
+    0.25
+};
+
+static PneumaticsConfig hsky2MogoClamp = {
+    'a',
     pros::E_CONTROLLER_DIGITAL_X,
-	pros::E_CONTROLLER_DIGITAL_B,
+	pros::E_CONTROLLER_DIGITAL_B
+};
+
+static LadyBrownConfig hsky2LadyBrown = {
+    19,
+    20,
     pros::E_MOTOR_BRAKE_HOLD,
     pros::E_MOTOR_GEAR_100,
     pros::E_CONTROLLER_DIGITAL_UP,
     pros::E_CONTROLLER_DIGITAL_DOWN,
-    pros::E_CONTROLLER_DIGITAL_LEFT,
     pros::E_CONTROLLER_DIGITAL_RIGHT,
-    pros::E_CONTROLLER_DIGITAL_LEFT, // TODO: fix button and sensor port assignments for lady brown
+    pros::E_CONTROLLER_DIGITAL_LEFT,
     0.6,
     0.01,
     0.0,
@@ -205,6 +226,14 @@ static RobotConfig hsky2Config = {
     0,
     7500,
     40000
+};
+
+static RobotConfig hsky2Config = {
+    hsky2Drivebase,
+    hsky2Intake,
+    hsky2Scoring,
+    hsky2MogoClamp,
+    hsky2LadyBrown
 };
 
 #endif

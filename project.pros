@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "dev",
+    "project_name": "stable",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,8 +255,8 @@
       }
     },
     "upload_options": {
-      "slot": 2,
-      "description": "experimental code"
+      "slot": 1,
+      "description": "stable release"
     },
     "use_early_access": false
   }

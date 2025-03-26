@@ -58,20 +58,20 @@ void opcontrol() {
 	
 	// tankdrive.driveToPoint(6.0,6.0);
 	// tankdrive.turnToHeading(90.0);
-	tankdrive.driveDistance(6.0);
-	tankdrive.initAuton();
-	pros::delay(10000);
-	tankdrive.driveDistance(-6.0);
+	// tankdrive.driveDistance(6.0);
+	// tankdrive.initAuton();
+	// pros::delay(10000);
+	// tankdrive.driveDistance(-6.0);
 
-	// tankdrive.initialize(config.driveStyle);
+	tankdrive.initialize(config.drivebase.driveStyle);
 	
-	// intake.initialize();
+	intake.initialize();
 	
-	// scoring.initialize();
+	scoring.initialize();
 
-	// mogoClamp.initialize();
+	mogoClamp.initialize();
 	
-	// ladyBrown.initialize();
+	ladyBrown.initialize();
 
 	while (true) {
 		pros::delay(50);
