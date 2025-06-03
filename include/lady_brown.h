@@ -7,6 +7,16 @@
 #include "robot_config.h"
 
 class LadyBrown {
+    public:
+        LadyBrown(LadyBrownConfig config,
+            pros::Controller& ctrl);
+        
+        ~LadyBrown();
+
+        // initialize and start the task
+        void initialize();
+        void stop();
+    
     private:
         pros::Motor armMotor;
         pros::Controller ctrl;
@@ -24,16 +34,6 @@ class LadyBrown {
 
         // main function
         void runLadyBrown();
-
-    public:
-        LadyBrown(LadyBrownConfig config,
-            pros::Controller& ctrl);
-        
-        ~LadyBrown();
-
-        // initialize and start the task
-        void initialize();
-        void stop();
 };
 
 #endif

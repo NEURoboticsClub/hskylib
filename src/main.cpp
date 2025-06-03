@@ -55,13 +55,6 @@ void autonomous() {
  */
 void opcontrol() {
 	printf("starting opcontrol");
-	
-	// tankdrive.driveToPoint(6.0,6.0);
-	// tankdrive.turnToHeading(90.0);
-	// tankdrive.driveDistance(6.0);
-	// tankdrive.initAuton();
-	// pros::delay(10000);
-	// tankdrive.driveDistance(-6.0);
 
 	tankdrive.initialize(config.drivebase.driveStyle);
 	

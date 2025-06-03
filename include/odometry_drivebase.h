@@ -4,6 +4,9 @@
 #include "api.h"
 #include "odometry.h"
 
+/**
+ * Odometry using the integrated encoders in the drivebase. Assumes tank drive.
+ */
 class DrivebaseOdometry : public Odometry
 {
     public:
@@ -17,10 +20,15 @@ class DrivebaseOdometry : public Odometry
         void updatePose() override;
 
     private:
+        // Drivebase motors, from which to fetch encoder data
         pros::MotorGroup leftMotorGroup;
         pros::MotorGroup rightMotorGroup;
+
+        // Internal tracking of past encoder values for delta calculation
         double leftMotorGroupLastPos;
         double rightMotorGroupLastPos;
+
+        // Drivebase width (center of the left wheels to center of the right wheels)
         double dW;
 };
 

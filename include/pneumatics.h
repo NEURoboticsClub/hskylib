@@ -5,24 +5,25 @@
 #include "toggle.h"
 #include "robot_config.h"
 
+// A pneumatic component.
 class Pneumatics {
-private:
-    pros::Controller ctrl;
-    pros::controller_digital_e_t extendButton;
-    pros::controller_digital_e_t retractButton;
-    pros::adi::DigitalOut piston;
+    private:
+        pros::Controller ctrl;
+        pros::controller_digital_e_t extendButton;
+        pros::controller_digital_e_t retractButton;
+        pros::adi::DigitalOut piston;
 
-    // main function
-    void startPneumatics();
+        // Main function
+        void startPneumatics();
 
-public:
-    Pneumatics(PneumaticsConfig config,
-        pros::Controller& ctrl);
+    public:
+        Pneumatics(PneumaticsConfig config,
+            pros::Controller& ctrl);
 
-    // initialize and start the task
-    void initialize();
-    void extendPiston();
-    void retractPiston();
+        // Initialize and start the task
+        void initialize();
+        void extendPiston();
+        void retractPiston();
 };
 
 #endif
