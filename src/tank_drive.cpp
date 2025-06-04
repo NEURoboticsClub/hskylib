@@ -1,6 +1,5 @@
 #include "tank_drive.h"
 #include <cmath>
-#include "drive_constants.h"
 
 // constructor
 TankDrive::TankDrive(DrivebaseConfig config,
