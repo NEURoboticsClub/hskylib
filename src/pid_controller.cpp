@@ -1,6 +1,7 @@
 #include "pid_controller.h"
-#include "pose.h"
 #include <cmath>
+#include "pose.h"
+
 
 template <typename T>
 PIDController<T>::PIDController(double kp, double ki, double kd)
@@ -9,12 +10,15 @@ PIDController<T>::PIDController(double kp, double ki, double kd)
 template<>
 double PIDController<Pose>::compute(Pose setpoint, Pose current_value) {
     double sign = 1.0;
-    
-    if (((setpoint.y - current_value.y) / (setpoint.x - current_value.x)) < 0.0) {
+
+    if (((setpoint.y - current_value.y) /
+         (setpoint.x - current_value.x)) < 0.0) {
         sign = -1.0;
     }
 
-    double error = sign * sqrt(pow((setpoint.x - current_value.x), 2.0) + pow((setpoint.y - current_value.y), 2.0));
+    double dx = setpoint.x - current_value.x;
+    double dy = setpoint.y - current_value.y;
+    double error = sign * sqrt(dx * dx + dy * dy);
 
     double proportional = kp_ * error;
 
@@ -26,6 +30,7 @@ double PIDController<Pose>::compute(Pose setpoint, Pose current_value) {
 
     return proportional + integral_ + derivative;
 }
+
 
 template<>
 double PIDController<double>::compute(double setpoint, double current_value) {
