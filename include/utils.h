@@ -24,9 +24,4 @@ enum ExceptionCode {
 };
 
 double scaleControllerInput(int x);
-
-double inchesToTicks(double inches);
-double ticksToInches(double ticks);
-double degreesToTicks(double degrees);
-
 #endif
