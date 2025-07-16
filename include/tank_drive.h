@@ -10,6 +10,10 @@
 #include "pose.h"
 #include "robot_config.h"
 
+/**
+ * A tank drive drivebase. Contains functions for both manual and
+ * autonomous control.
+ */
 class TankDrive {
     public:
         TankDrive(DrivebaseConfig config,
