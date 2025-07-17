@@ -2,31 +2,29 @@
 #define TRANSPORT
 
 #include "api.h"
-#include "toggle.h"
 #include "robot_config.h"
+#include "toggle.h"
 
 class Transport {
-private:
-    pros::MotorGroup motors;
-    Toggle inToggle;
-    Toggle outToggle;
-    double motorDutyCycle;
-    bool intakeIn;
-    bool intakeOut;
+  public:
+	Transport(TransportConfig config, pros::Controller &ctrl);
 
-    // main function
-    void runTransport();
-    
+	// Initialize and start the task
+	void initialize();
+	void moveIn();
+	void moveOut();
+	void stop();
 
-public:
-    Transport(TransportConfig config,
-        pros::Controller& ctrl);
+  private:
+	pros::MotorGroup motors;
+	Toggle inToggle;
+	Toggle outToggle;
+	double motorDutyCycle;
+	bool intakeIn;
+	bool intakeOut;
 
-    // initialize and start the task
-    void initialize();
-    void moveIn();
-    void moveOut();
-    void stop();
+	// Main function
+	void runTransport();
 };
 
 #endif

@@ -5,24 +5,26 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "tank_drive.h"
-#include "transport.h"
 #include "lady_brown.h"
-#include "pneumatics.h"
-#include "robot_config.h"
 #include "odometry.h"
 #include "odometry_drivebase.h"
+#include "pneumatics.h"
+#include "robot_config.h"
+#include "tank_drive.h"
+#include "transport.h"
+
+/**
+ * Subsystems are initialized here. All subsystems should take a configuration
+ * (either the whole robot configuration or one of its composite structs) and
+ * the controller, both defined here, in their constructor.
+ */
 
 pros::Controller ctrl(pros::E_CONTROLLER_MASTER);
 RobotConfig config = hsky1Config;
 TankDrive tankdrive(config.drivebase, ctrl);
-Transport intake(config.intake,
-    ctrl);
-Transport scoring(config.scoring,
-    ctrl);
-Pneumatics mogoClamp(config.mogoClamp,
-    ctrl);
-LadyBrown ladyBrown(config.ladyBrown,
-    ctrl);
+Transport intake(config.intake, ctrl);
+Transport scoring(config.scoring, ctrl);
+Pneumatics mogoClamp(config.mogoClamp, ctrl);
+LadyBrown ladyBrown(config.ladyBrown, ctrl);
 
 #endif

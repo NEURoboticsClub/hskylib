@@ -36,18 +36,18 @@
 
 #include "api.h"
 // #include "TuningScreen.h"
-#include "tank_drive.h"
-#include "transport.h"
 #include "lady_brown.h"
+#include "odometry.h"
 #include "pneumatics.h"
 #include "robot_config.h"
-#include "odometry.h"
 #include "subsystems.h"
+#include "tank_drive.h"
+#include "transport.h"
 
 /**
  * You should add more #includes here
  */
-//#include "okapi/api.hpp"
+// #include "okapi/api.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -82,7 +82,7 @@ void opcontrol(void);
 /**
  * You can add C++-only headers here
  */
-//#include <iostream>
+// #include <iostream>
 #endif
 
-#endif  // _PROS_MAIN_H_
+#endif	// _PROS_MAIN_H_

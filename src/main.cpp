@@ -37,8 +37,7 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {
-}
+void autonomous() {}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -55,22 +54,15 @@ void autonomous() {
  */
 void opcontrol() {
 	printf("starting opcontrol");
-	
-	// tankdrive.driveToPoint(6.0,6.0);
-	// tankdrive.turnToHeading(90.0);
-	// tankdrive.driveDistance(6.0);
-	// tankdrive.initAuton();
-	// pros::delay(10000);
-	// tankdrive.driveDistance(-6.0);
 
 	tankdrive.initialize(config.drivebase.driveStyle);
-	
+
 	intake.initialize();
-	
+
 	scoring.initialize();
 
 	mogoClamp.initialize();
-	
+
 	ladyBrown.initialize();
 
 	while (true) {
