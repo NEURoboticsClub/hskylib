@@ -20,7 +20,7 @@ class TankDrive {
 
 	~TankDrive();
 
-	// initialize and start the task
+	// Initialize and start the task
 	void initialize(DriveStyle driveStyle);
 
 	// Autonomous movement methods
