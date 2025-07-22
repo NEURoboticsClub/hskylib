@@ -6,6 +6,7 @@
 #include "api.h"
 #include "utils.h"
 
+// TODO: Clean up and document
 struct AutonConstants {
 	double wheelDiameterIn;
 	double trackWidthIn;

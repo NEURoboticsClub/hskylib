@@ -5,8 +5,18 @@
 #include "robot_config.h"
 #include "toggle.h"
 
-// A pneumatic component.
+/**
+ * A pneumatic component.
+ */
 class Pneumatics {
+  public:
+	Pneumatics(PneumaticsConfig config, pros::Controller &ctrl);
+
+	// Initialize and start the task
+	void initialize();
+	void extendPiston();
+	void retractPiston();
+
   private:
 	pros::Controller ctrl;
 	pros::controller_digital_e_t extendButton;
@@ -15,14 +25,6 @@ class Pneumatics {
 
 	// Main function
 	void startPneumatics();
-
-  public:
-	Pneumatics(PneumaticsConfig config, pros::Controller &ctrl);
-
-	// Initialize and start the task
-	void initialize();
-	void extendPiston();
-	void retractPiston();
 };
 
 #endif

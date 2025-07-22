@@ -3,16 +3,38 @@
 
 #include "api.h"
 
+/**
+ * Returns the absolute value of the input limits for the given gearset.
+ */
 uint16_t getInputExtremeForGearset(pros::motor_gearset_e gearset);
 
+/**
+ * Equality comparison between two doubles.
+ */
 bool doubleEquals(double val1, double val2, double tolerance);
 
+/**
+ * A control configuration for a drivebase.
+ *
+ * ARCADE: The robot moves left, right, forward, and backward in relation to
+ * the state of the left joystick
+ * TANK: The robot moves forward and backward in relation to the y-axis value of
+ * the left joystick and moves left and right in relation to the x-axis value of
+ * the right joystick
+ */
 enum DriveStyle { ARCADE, TANK };
 
 // Experimental
 enum PIDMode { DRIVING, TURNING, COMBINED, OFF };
 
+/**
+ * An error value representing a particular kind of error.
+ */
 enum ExceptionCode { INVALID_ARGUMENT = 0 };
 
+/**
+ * Scales controller input on an exponential function to provide better fine
+ * control over the robot's lateral movement.
+ */
 double scaleControllerInput(int x);
 #endif
