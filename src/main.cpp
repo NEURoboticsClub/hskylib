@@ -63,8 +63,6 @@ void opcontrol() {
 
 	mogoClamp.initialize();
 
-	ladyBrown.initialize();
-
 	while (true) {
 		pros::delay(50);
 	}

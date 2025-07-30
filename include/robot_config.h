@@ -52,30 +52,11 @@ struct PneumaticsConfig {
 	pros::controller_digital_e_t retractButton;
 };
 
-struct LadyBrownConfig {
-	int8_t armPort;
-	int8_t sensorPort;
-	pros::motor_brake_mode_e brakeMode;
-	pros::motor_gearset_e gearset;
-	pros::controller_digital_e_t upButton;
-	pros::controller_digital_e_t downButton;
-	pros::controller_digital_e_t macroForwardButton;
-	pros::controller_digital_e_t macroBackButton;
-	double dutyCycle;
-	double kP;
-	double kI;
-	double kD;
-	uint32_t easeSetPoint;
-	uint32_t armedSetPoint;
-	uint32_t fireSetPoint;
-};
-
 struct RobotConfig {
 	DrivebaseConfig drivebase;
 	TransportConfig intake;
 	TransportConfig scoring;
 	PneumaticsConfig mogoClamp;
-	LadyBrownConfig ladyBrown;
 };
 
 static AutonConstants hsky1AutonConstants = {
@@ -120,24 +101,8 @@ static TransportConfig hsky1Scoring = {{15, -16},
 static PneumaticsConfig hsky1MogoClamp = {'a', pros::E_CONTROLLER_DIGITAL_B,
 										  pros::E_CONTROLLER_DIGITAL_X};
 
-static LadyBrownConfig hsky1LadyBrown = {21,
-										 21,
-										 pros::E_MOTOR_BRAKE_HOLD,
-										 pros::E_MOTOR_GEAR_100,
-										 pros::E_CONTROLLER_DIGITAL_UP,
-										 pros::E_CONTROLLER_DIGITAL_DOWN,
-										 pros::E_CONTROLLER_DIGITAL_RIGHT,
-										 pros::E_CONTROLLER_DIGITAL_LEFT,
-										 0.6,
-										 0.01,
-										 0.0,
-										 0.00,
-										 0,
-										 7800,
-										 40000};
-
 static RobotConfig hsky1Config = {hsky1Drivebase, hsky1Intake, hsky1Scoring,
-								  hsky1MogoClamp, hsky1LadyBrown};
+								  hsky1MogoClamp};
 
 static AutonConstants hsky2AutonConstants = {
 	3.25,
@@ -181,23 +146,7 @@ static TransportConfig hsky2Scoring = {{9, -14},
 static PneumaticsConfig hsky2MogoClamp = {'a', pros::E_CONTROLLER_DIGITAL_X,
 										  pros::E_CONTROLLER_DIGITAL_B};
 
-static LadyBrownConfig hsky2LadyBrown = {19,
-										 20,
-										 pros::E_MOTOR_BRAKE_HOLD,
-										 pros::E_MOTOR_GEAR_100,
-										 pros::E_CONTROLLER_DIGITAL_UP,
-										 pros::E_CONTROLLER_DIGITAL_DOWN,
-										 pros::E_CONTROLLER_DIGITAL_RIGHT,
-										 pros::E_CONTROLLER_DIGITAL_LEFT,
-										 0.6,
-										 0.01,
-										 0.0,
-										 0.00,
-										 0,
-										 7500,
-										 40000};
-
 static RobotConfig hsky2Config = {hsky2Drivebase, hsky2Intake, hsky2Scoring,
-								  hsky2MogoClamp, hsky2LadyBrown};
+								  hsky2MogoClamp};
 
 #endif
