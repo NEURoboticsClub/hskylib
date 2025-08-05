@@ -5,7 +5,6 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "lady_brown.h"
 #include "odometry.h"
 #include "odometry_drivebase.h"
 #include "pneumatics.h"
@@ -25,6 +24,5 @@ TankDrive tankdrive(config.drivebase, ctrl);
 Transport intake(config.intake, ctrl);
 Transport scoring(config.scoring, ctrl);
 Pneumatics mogoClamp(config.mogoClamp, ctrl);
-LadyBrown ladyBrown(config.ladyBrown, ctrl);
 
 #endif
