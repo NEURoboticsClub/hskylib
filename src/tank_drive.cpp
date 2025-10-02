@@ -38,10 +38,10 @@ TankDrive::~TankDrive() {
 void TankDrive::runAuton() {
 	while (true) {
 		Pose currentPose;
-		int16_t pidValMove = 0;
-		int16_t pidValTurn = 0;
-		int16_t maxMotorMag = getInputExtremeForGearset(
-			(pros::motor_gearset_e)leftMotorGroup.get_gearing());
+		int16_t pidValMove = static_cast<int16_t>(0);
+		int16_t pidValTurn = static_cast<int16_t>(0);
+		int16_t maxMotorMag = static_cast<int16_t>(getInputExtremeForGearset(
+			(pros::motor_gearset_e)leftMotorGroup.get_gearing()));
 		odom->getPose(&currentPose);
 		// printf("setpoint x: %f, y: %f, theta: %f\n", setPoint->x,
 		// setPoint->y, setPoint->theta); printf("current x: %f, y: %f, theta:
@@ -52,19 +52,19 @@ void TankDrive::runAuton() {
 		}
 		if (pidMode == DRIVING || pidMode == COMBINED) {
 			double moveComputation =
-				pidCtrlMove->compute(*setPoint, currentPose);
+				static_cast<double>((pidCtrlMove)->compute(*setPoint, currentPose));
 			printf("move: %f\n", moveComputation);
 			pidValMove =
 				std::clamp(moveComputation, ((double)maxMotorMag * -1.0 * 0.5),
-						   ((double)maxMotorMag * 0.5));
+						   (static_cast<double>(maxMotorMag * 0.5)));
 		}
 		if (pidMode == TURNING || pidMode == COMBINED) {
 			double turnComputation =
-				pidCtrlTurn->compute(setPoint->theta, currentPose.theta);
+				static_cast<double>(pidCtrlTurn->compute(setPoint->theta, currentPose.theta));
 			printf("turn: %f\n", turnComputation);
 			pidValTurn =
-				std::clamp(turnComputation, ((double)maxMotorMag * -1.0 * 0.5),
-						   ((double)maxMotorMag * 0.5));
+				std::clamp(turnComputation, (static_cast<double>(maxMotorMag * -1.0 * 0.5)),
+						   (static_cast<double>(maxMotorMag * 0.5)));
 		}
 
 		int16_t motorValLeft = pidValMove - pidValTurn;
@@ -118,9 +118,9 @@ void TankDrive::tankDrive() {
 			(scaleControllerInput(
 				 controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) /
 			 127.0) *
-			(double)getInputExtremeForGearset(
+			static_cast<double>(getInputExtremeForGearset(
 				(pros::motor_gearset_e)leftMotorGroup.get_gearing()) *
-			speedMultiplier;
+			speedMultiplier);
 		double rightSpeed =
 			(scaleControllerInput(
 				 controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) /
