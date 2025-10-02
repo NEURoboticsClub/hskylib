@@ -31,24 +31,24 @@ void DrivebaseOdometry::reset() {
 void DrivebaseOdometry::updatePose() {
 	// math based off of:
 	// https://medium.com/@nahmed3536/wheel-odometry-model-for-differential-drive-robotics-91b85a012299
-	double leftMotorGroupNewPos = leftMotorGroup.get_position(0);
-	double rightMotorGroupNewPos = rightMotorGroup.get_position(0);
+	double leftMotorGroupNewPos = static_cast<double>(leftMotorGroup.get_position(0));
+	double rightMotorGroupNewPos = static_cast<double>(rightMotorGroup.get_position(0));
 	double dL =
-		((leftMotorGroupNewPos - (double)leftMotorGroupLastPos) / 360.0) *
-		(39.0 / 57.0) * 10.205;
+		static_cast<double>(((leftMotorGroupNewPos - (double)leftMotorGroupLastPos) / 360.0) *
+		(39.0 / 57.0) * 10.205);
 	double dR =
-		((rightMotorGroupNewPos - (double)rightMotorGroupLastPos) / 360.0) *
-		(39.0 / 57.0) * 10.205;
-	double d = (dL + dR) / 2.0;
-	double deltaThetaRad = (dR - dL) / (2.0 * dW);
+		static_cast<double>(((rightMotorGroupNewPos - (double)rightMotorGroupLastPos) / 360.0) *
+		(39.0 / 57.0) * 10.205);
+	double d = static_cast<double>((dL + dR) / 2.0);
+	double deltaThetaRad = static_cast<double>((dR - dL) / (2.0 * dW));
 
 	printf("Calculating...");
 
-	double x = currentPose->x +
-			   (d * (double)cos(currentPose->theta + (deltaThetaRad / 2.0)));
-	double y = currentPose->y +
-			   (d * (double)sin(currentPose->theta + (deltaThetaRad / 2.0)));
-	double theta = currentPose->theta + deltaThetaRad;
+	double x = static_cast<double>(currentPose->x +
+			   (d * (double)cos(currentPose->theta + (deltaThetaRad / 2.0))));
+	double y = static_cast<double>(currentPose->y +
+			   (d * (double)sin(currentPose->theta + (deltaThetaRad / 2.0))));
+	double theta = static_cast<double>(currentPose->theta + deltaThetaRad);
 
 	currentPose->x = x;
 	currentPose->y = y;
