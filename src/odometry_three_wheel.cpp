@@ -33,19 +33,18 @@ void OdometryThreeWheel::reset() {
 }
 
 void OdometryThreeWheel::updatePose() {
-	uint32_t leftEncoderNewPos = leftEncoder.get_position();
-	uint32_t rightEncoderNewPos = rightEncoder.get_position();
-	uint32_t centerEncoderNewPos = centerEncoder.get_position();
+	uint32_t leftEncoderNewPos = static_cast<uint32_t>(leftEncoder.get_position());
+	uint32_t rightEncoderNewPos = static_cast<uint32_t>(rightEncoder.get_position());
+	uint32_t centerEncoderNewPos = static_cast<uint32_t>(centerEncoder.get_position());
 	double dL =
-		(((double)leftEncoderNewPos - (double)leftEncoderLastPos) / 36000.0) *
-		6.28318;
+		static_cast<double>((((double)leftEncoderNewPos - (double)leftEncoderLastPos) / 36000.0) *
+		6.28318);
 	double dR =
-		(((double)rightEncoderNewPos - (double)rightEncoderLastPos) / 36000.0) *
-		6.28318;
-	double dC = (((double)centerEncoderNewPos - (double)centerEncoderLastPos) /
-				 36000.0) *
-				6.28318;
-	double deltaThetaRad = (dL - dR) / (sL + sR);
+		static_cast<double>((((double)rightEncoderNewPos - (double)rightEncoderLastPos) / 36000.0) *
+		6.28318);
+	double dC = static_cast<double>((((double)centerEncoderNewPos - (double)centerEncoderLastPos) /
+				 36000.0) * 6.28318);
+	double deltaThetaRad = static_cast<double>((dL - dR) / (sL + sR));
 
 	double localOffsetX;
 	double localOffsetY;
@@ -59,14 +58,14 @@ void OdometryThreeWheel::updatePose() {
 		localOffsetY = (dR / deltaThetaRad) + sR;
 	}
 
-	double thetaM = currentPose->theta + (deltaThetaRad / 2.0);
+	double thetaM = static_cast<double>(currentPose->theta + (deltaThetaRad / 2.0));
 
-	double dX = (localOffsetX * cos(thetaM)) - (localOffsetY * sin(thetaM));
-	double dY = (localOffsetX * sin(thetaM)) + (localOffsetY * cos(thetaM));
+	double dX = static_cast<double>((localOffsetX * cos(thetaM)) - (localOffsetY * sin(thetaM)));
+	double dY = static_cast<double>((localOffsetX * sin(thetaM)) + (localOffsetY * cos(thetaM)));
 
-	double x = currentPose->x + dX;
-	double y = currentPose->y + dY;
-	double theta = currentPose->theta + deltaThetaRad;
+	double x = static_cast<double>(currentPose->x + dX);
+	double y = static_cast<double>(currentPose->y + dY);
+	double theta = static_cast<double>(currentPose->theta + deltaThetaRad);
 
 	currentPose->x = x;
 	currentPose->y = y;
