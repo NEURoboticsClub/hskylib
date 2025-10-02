@@ -10,21 +10,21 @@ PIDController<T>::PIDController(double kp, double ki, double kd)
 
 template <>
 double PIDController<Pose>::compute(Pose setpoint, Pose current_value) {
-	double sign = 1.0;
+	double sign = static_cast<double>(1.0);
 
 	if (((setpoint.y - current_value.y) / (setpoint.x - current_value.x)) <
 		0.0) {
 		sign = -1.0;
 	}
 
-	double error = sign * sqrt(pow((setpoint.x - current_value.x), 2.0) +
-							   pow((setpoint.y - current_value.y), 2.0));
+	double error = static_cast<double>(sign * sqrt(pow((setpoint.x - current_value.x), 2.0) +
+							   pow((setpoint.y - current_value.y), 2.0)));
 
-	double proportional = kp_ * error;
+	double proportional = static_cast<double>(kp_ * error);
 
 	integral_ += ki_ * error;
 
-	double derivative = kd_ * (error - prev_error_);
+	double derivative = static_cast<double>(kd_ * (error - prev_error_));
 
 	prev_error_ = error;
 
@@ -35,11 +35,11 @@ template <>
 double PIDController<double>::compute(double setpoint, double current_value) {
 	double error = setpoint - current_value;
 
-	double proportional = kp_ * error;
+	double proportional = static_cast<double>(kp_ * error);
 
 	integral_ += ki_ * error;
 
-	double derivative = kd_ * (error - prev_error_);
+	double derivative = static_cast<double>(kd_ * (error - prev_error_));
 
 	prev_error_ = error;
 
