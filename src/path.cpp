@@ -8,7 +8,7 @@ void Path::addNode(const Node& node) {
     nodes_.push_back(node);
 }
 
-void Path::addNode(double x, double y, double veolcity) {
+void Path::addNode(double x, double y, double velocity) {
     nodes_.emplace_back(x, y, velocity);
 }
 
@@ -21,7 +21,7 @@ size_t Path::size() const {
 }
 
 bool Path::empty() const {
-    return nodes_.empty()
+    return nodes_.empty();
 }
 
 void Path::clear() {

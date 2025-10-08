@@ -14,6 +14,10 @@ class Path {
         const Node& getNode(size_t index) const;
         Node* getNodePtr(size_t index);
 
+        size_t size() const;
+        bool empty() const;
+        void clear();
+
     private:
         std::vector<Node> nodes_;
 };
