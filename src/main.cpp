@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include <list>
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -53,69 +53,117 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+// void opcontrol() {
+// 	printf("starting opcontrol");
+
+// 	// tankdrive.driveToPoint(6.0,6.0);
+// 	// tankdrive.turnToHeading(90.0);
+// 	// tankdrive.driveDistance(6.0);
+// 	// tankdrive.initAuton();
+// 	// pros::delay(10000);
+// 	// tankdrive.driveDistance(-6.0);
+
+// 	tankdrive.initialize(config.drivebase.driveStyle);
+	
+// 	intake.initialize();
+	
+// 	scoring.initialize();
+
+// 	mogoClamp.initialize();
+	
+// 	ladyBrown.initialize();
+	
+// 	// pros::screen_touch_status_s_t status;
+	
+// 	while (true) {
+// 		int HEIGHT = 272;
+// 		int WIDTH = 480;
+
+// 		int squares = 5;
+// 		int square_spacing = 25;
+// 		int top_padding = 10;
+// 		int bottom_padding = 40;
+// 		int square_size = 65;
+// 		int left_padding = (WIDTH - (squares  * (square_size + square_spacing)) + square_spacing) / 2;
+		
+// 		pros::screen::set_pen(pros::Color::grey);
+// 		for (int i = 0; i < squares; i++) {
+// 			pros::screen::draw_rect(left_padding + (square_spacing + square_size) * i, top_padding, left_padding + (square_spacing + square_size) * i + square_size, top_padding + square_size);
+// 			pros::screen::draw_rect(left_padding + (square_spacing + square_size) * i, HEIGHT - bottom_padding - square_size, left_padding + (square_spacing + square_size) * i + square_size, HEIGHT - bottom_padding);
+// 		}
+// 		pros::screen::set_pen(pros::Color::red);
+// 		int color_seperation = square_spacing;
+// 		int color_rect_height = square_size;
+// 		int width = WIDTH / 2 - color_seperation / 2 - 20;
+		
+		
+// 		pros::screen::draw_rect(left_padding, HEIGHT / 2 - color_rect_height / 2 - 15, left_padding + width, HEIGHT / 2 + color_rect_height - color_rect_height / 2 - 15);
+// 		pros::screen::set_pen(pros::Color::blue);
+// 		pros::screen::draw_rect(left_padding + width + color_seperation / 2, HEIGHT / 2 - color_rect_height / 2 - 15, left_padding + width + width + color_seperation / 2, HEIGHT / 2 + color_rect_height - color_rect_height / 2 - 15);
+
+
+// 		// status = pros::screen::touch_status();
+// 		// pros::screen::print(TEXT_MEDIUM, 1, "Touch Status (Type): %d", status.touch_status);
+//         // pros::screen::print(TEXT_MEDIUM, 2, "Last X: %d", status.x);
+//         // pros::screen::print(TEXT_MEDIUM, 3, "Last Y: %d", status.y);
+//         // pros::screen::print(TEXT_MEDIUM, 4, "Press Count: %d", status.press_count);
+//         // pros::screen::print(TEXT_MEDIUM, 5, "Release Count: %d", status.release_count);
+// 		// // pros::c::screen_draw_pixel(status.x, status.y);
+// 		// pros::screen::fill_rect(status.x - 5, status.y - 5, status.x + 5, status.y + 5);
+// 		// // for (int i = 0; i < HEIGHT; i++) {
+// 		// 	for (int j = 0; j < WIDTH; j++) {
+// 		// 		pros::c::screen_set_pen(0, 0, 0);
+// 		// 		pros::c::screen_draw_pixel(i, j);
+// 		// 	}
+// 		// }
+// 		pros::delay(50);
+// 	}
+// }
 void opcontrol() {
-	printf("starting opcontrol");
+	int HEIGHT = 272;
+	int WIDTH = 480;
 
-	// tankdrive.driveToPoint(6.0,6.0);
-	// tankdrive.turnToHeading(90.0);
-	// tankdrive.driveDistance(6.0);
-	// tankdrive.initAuton();
-	// pros::delay(10000);
-	// tankdrive.driveDistance(-6.0);
+	int squares = 5;
+	int square_spacing = 25;
+	int top_padding = 10;
+	int bottom_padding = 40;
+	int square_size = 65;
+	int left_padding = (WIDTH - (squares  * (square_size + square_spacing)) + square_spacing) / 2;
 
-	tankdrive.initialize(config.drivebase.driveStyle);
+    std::list<Button> auton_buttons = {};
 	
-	intake.initialize();
-	
-	scoring.initialize();
+	for (int i = 0; i < squares; i++) {
+		auton_buttons.push_back(Button(left_padding + (square_spacing + square_size) * i, top_padding, square_size, square_size, pros::Color::white, pros::Color::black, std::to_string(i + 1)));
+	}
+	for (int i = 0; i < squares; i++) {
+		auton_buttons.push_back(Button(left_padding + (square_spacing + square_size) * i, HEIGHT - bottom_padding - square_size, square_size, square_size, pros::Color::white, pros::Color::black, std::to_string(i + squares + 1)));
+	}
+    
+	int color_seperation = square_spacing;
+	int color_rect_height = square_size;
+	int width = WIDTH / 2 - color_seperation / 2 - 20;
 
-	mogoClamp.initialize();
-	
-	ladyBrown.initialize();
-	
-	// pros::screen_touch_status_s_t status;
-	
-	while (true) {
-		int HEIGHT = 272;
-		int WIDTH = 480;
+	Button redButton(left_padding, HEIGHT / 2 - color_rect_height / 2 - 15, width, color_rect_height, pros::Color::red, pros::Color::black, "Red");
+	Button blueButton(left_padding + color_seperation / 2 + width, HEIGHT / 2 - color_rect_height / 2 - 15, width, color_rect_height, pros::Color::blue, pros::Color::black, "Blue");
 
-		int squares = 5;
-		int square_spacing = 25;
-		int top_padding = 10;
-		int bottom_padding = 40;
-		int square_size = 65;
-		int left_padding = (WIDTH - (squares  * (square_size + square_spacing)) + square_spacing) / 2;
-		
-		pros::screen::set_pen(pros::Color::grey);
-		for (int i = 0; i < squares; i++) {
-			pros::screen::draw_rect(left_padding + (square_spacing + square_size) * i, top_padding, left_padding + (square_spacing + square_size) * i + square_size, top_padding + square_size);
-			pros::screen::draw_rect(left_padding + (square_spacing + square_size) * i, HEIGHT - bottom_padding - square_size, left_padding + (square_spacing + square_size) * i + square_size, HEIGHT - bottom_padding);
+
+	pros::screen_touch_status_s_t status;
+	
+	int i = 0;
+
+	while(true) {
+		status = pros::screen::touch_status();
+		redButton.draw();
+		if (redButton.isPressed(status)) {
+			redButton.setFillColor(pros::Color::red);
 		}
-		pros::screen::set_pen(pros::Color::red);
-		int color_seperation = square_spacing;
-		int color_rect_height = square_size;
-		int width = WIDTH / 2 - color_seperation / 2 - 20;
-		
-		
-		pros::screen::draw_rect(left_padding, HEIGHT / 2 - color_rect_height / 2 - 15, left_padding + width, HEIGHT / 2 + color_rect_height - color_rect_height / 2 - 15);
-		pros::screen::set_pen(pros::Color::blue);
-		pros::screen::draw_rect(left_padding + width + color_seperation / 2, HEIGHT / 2 - color_rect_height / 2 - 15, left_padding + width + width + color_seperation / 2, HEIGHT / 2 + color_rect_height - color_rect_height / 2 - 15);
-
-
-		// status = pros::screen::touch_status();
-		// pros::screen::print(TEXT_MEDIUM, 1, "Touch Status (Type): %d", status.touch_status);
-        // pros::screen::print(TEXT_MEDIUM, 2, "Last X: %d", status.x);
-        // pros::screen::print(TEXT_MEDIUM, 3, "Last Y: %d", status.y);
-        // pros::screen::print(TEXT_MEDIUM, 4, "Press Count: %d", status.press_count);
-        // pros::screen::print(TEXT_MEDIUM, 5, "Release Count: %d", status.release_count);
-		// // pros::c::screen_draw_pixel(status.x, status.y);
-		// pros::screen::fill_rect(status.x - 5, status.y - 5, status.x + 5, status.y + 5);
-		// // for (int i = 0; i < HEIGHT; i++) {
-		// 	for (int j = 0; j < WIDTH; j++) {
-		// 		pros::c::screen_set_pen(0, 0, 0);
-		// 		pros::c::screen_draw_pixel(i, j);
-		// 	}
-		// }
-		pros::delay(50);
+		blueButton.draw();
+		if (blueButton.isPressed(status)) {
+			blueButton.setFillColor(pros::Color::blue);
+		}
+		for (Button button: auton_buttons) {
+			button.draw();
+		}
+		pros::delay(100);
 	}
 }
