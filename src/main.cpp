@@ -149,8 +149,8 @@ void opcontrol() {
 
 	pros::screen_touch_status_s_t status;
 	
-	int i = 0;
-
+	int auton_index = -1;
+	
 	while(true) {
 		status = pros::screen::touch_status();
 		redButton.draw();
@@ -161,9 +161,29 @@ void opcontrol() {
 		if (blueButton.isPressed(status)) {
 			blueButton.setFillColor(pros::Color::blue);
 		}
-		for (Button button: auton_buttons) {
-			button.draw();
+		int j = 0;
+		for (auto button = auton_buttons.begin(); button != auton_buttons.end(); ++button) {
+			if (button -> isPressed(status)) {
+				auton_index = j;
+			} 
+			else {
+				button -> setFillColor(pros::Color::black);
+			}
+			j++;
 		}
+		j = 0;
+		
+		for (auto button = auton_buttons.begin(); button != auton_buttons.end(); ++button) {
+			if (j == auton_index) {
+				button -> setFillColor(pros::Color::grey);
+			}
+			j++;
+		}
+
+		for (auto button = auton_buttons.begin(); button != auton_buttons.end(); ++button) {
+			button -> draw();
+		}
+		
 		pros::delay(100);
 	}
 }
