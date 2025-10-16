@@ -4,11 +4,6 @@
 class MotionProfileGenerator {
 public:
     /**
-     * Constructs a MotionProfileGenerator.
-     */
-    MotionProfileGenerator();
-
-    /**
      * Generates a motion profile based on the provided parameters.
      * 
      * @param waypoints An array of Pose objects representing the waypoints of the path.
@@ -16,5 +11,5 @@ public:
      * @param acceleration The acceleration to be used in the motion profile.
      * @return A MotionProfile object representing the generated motion profile.
      */
-    MotionProfile generateProfile(Pose[] waypoints, double maxVelocity, double acceleration);
+    static MotionProfile generateProfile(Pose[] waypoints, double maxVelocity, double acceleration);
 };
