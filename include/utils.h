@@ -37,4 +37,14 @@ enum ExceptionCode { INVALID_ARGUMENT = 0 };
  * control over the robot's lateral movement.
  */
 double scaleControllerInput(int x);
+
+/**
+ * Takes a filename as input and returns the contents of the file as a long
+ * string that can be managed Basically a Wrapper for the PROS Filereading
+ * operation filenames should start with a \usd\ file prefix Note that reading
+ * with bad filename will return an empty string, and that methods using this
+ * method, will use an empty string as an error conditionas consequence.
+ */
+std::string readFile(std::string fileName, int bufferLength);
+
 #endif

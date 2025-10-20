@@ -1,6 +1,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+/**
+ * A datastructure that holds a collection of nodes or path points
+ */
 struct Node {
     double x;
     double y;
