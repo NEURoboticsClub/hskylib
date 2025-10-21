@@ -6,11 +6,17 @@
 MotionProfileGenerator::MotionProfileGenerator() {}
 
 MotionProfile MotionProfileGenerator::generateProfile(Pose[] waypoints, double maxVelocity, double acceleration) {
-    // TODO: Fix this to fulfill motion profile generation
+    std::vector<double> distances;
     double totalDistance = 0.0;
-    for (size_t i = 1; i < waypoints.size(); i++) {
+    for (size_t i = waypoints.size()-1; i > 0; i--) {
         totalDistance += math::hypot(
             waypoints[i].x - waypoints[i-1].x, waypoints[i].y - waypoints[i-1].y);
+        distances.push_back(totalDistance);
+    }
+
+    std::map<Pose, double> distanceMap;
+    for (size_t i = 0; i < waypoints.size(); i++) {
+        distanceMap[waypoints[i]] = distances[i];
     }
 
     double timeToAccelerate = maxVelocity / acceleration;
@@ -18,7 +24,7 @@ MotionProfile MotionProfileGenerator::generateProfile(Pose[] waypoints, double m
     double endAccelerationDistance = maxVelocity * timeToAccelerate / 2.0;
     double startDecelerationDistance = totalDistance - endAccelerationDistance;
 
-    MotionProfile profile = MotionProfile(
+    MotionProfile profile = MotionProfile(distanceMap,
         totalDistance, maxVelocity, endAccelerationDistance, startDecelerationDistance);
 
     return profile;
