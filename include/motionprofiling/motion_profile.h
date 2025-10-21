@@ -6,12 +6,12 @@ public:
     /**
      * Constructs a MotionProfile with specified parameters.
      * 
-     * @param totalDistance The total distance to be covered by the motion profile. (Arc length)
+     * @param distanceMap A map of Pose objects to their corresponding accumulated distances.
      * @param maxVelocity The maximum velocity to be reached during the motion profile.
-     * @param endAccelerationDistance The distance to target where initial acceleration stops.
-     * @param startDecelerationDistance The distance to target where deceleration begins.
+     * @param endAccelerationDistance The distance along the path where initial acceleration stops.
+     * @param startDecelerationDistance The distance along the path where deceleration begins.
      */
-    MotionProfile(double totalDistance, 
+    MotionProfile(std::map<Pose, double> distanceMap,
             double maxVelocity, 
             double endAccelerationDistance, 
             double startDecelerationDistance);
@@ -19,9 +19,15 @@ public:
     /**
      * Gets the target velocity at a given position
      * 
-     * @param position The current position
+     * @param pose The Pose object representing the current position.
      * @return The target velocity at the given position.
      */
-    double getVelocityFromPosition(double position);
+    double getVelocityFromPosition(Pose pose);
 
+private:
+    double totalDistance;
+    double maxVelocity;
+    double endAccelerationDistance;
+    double startDecelerationDistance;
+    std::map<Pose, double> distanceMap;
 };
