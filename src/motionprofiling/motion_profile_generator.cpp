@@ -6,6 +6,7 @@
 MotionProfileGenerator::MotionProfileGenerator() {}
 
 MotionProfile MotionProfileGenerator::generateProfile(Pose[] waypoints, double maxVelocity, double acceleration) {
+    // TODO: Fix this to fulfill motion profile generation
     double totalDistance = 0.0;
     for (size_t i = 1; i < waypoints.size(); i++) {
         totalDistance += math::hypot(

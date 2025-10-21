@@ -1,14 +1,13 @@
 #include "motion_profile.h"
 
 MotionProfile::MotionProfile(std::map<Pose, double> distanceMap,
+        double totalDistance,
         double maxVelocity, 
         double endAccelerationDistance, 
         double startDecelerationDistance) {
 
-    for (auto distancePair : distanceMap) {
-        this.totalDistance += distancePair.second;
-    }
     this.distanceMap = distanceMap;
+    this.totalDistance = totalDistance;
     this.maxVelocity = maxVelocity;
     this.endAccelerationDistance = endAccelerationDistance;
     this.startDecelerationDistance = startDecelerationDistance;

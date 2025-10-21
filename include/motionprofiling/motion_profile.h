@@ -12,6 +12,7 @@ public:
      * @param startDecelerationDistance The distance along the path where deceleration begins.
      */
     MotionProfile(std::map<Pose, double> distanceMap,
+            double totalDistance,
             double maxVelocity, 
             double endAccelerationDistance, 
             double startDecelerationDistance);
@@ -25,9 +26,9 @@ public:
     double getVelocityFromPosition(Pose pose);
 
 private:
+    std::map<Pose, double> distanceMap;
     double totalDistance;
     double maxVelocity;
     double endAccelerationDistance;
     double startDecelerationDistance;
-    std::map<Pose, double> distanceMap;
 };
