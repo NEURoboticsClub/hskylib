@@ -6,9 +6,9 @@
 MotionProfileGenerator::MotionProfileGenerator() {}
 
 MotionProfile MotionProfileGenerator::generateProfile(Pose[] waypoints, double maxVelocity, double acceleration) {
-    std::vector<double> distances;
+    std::vector<double> distances = {0.0};
     double totalDistance = 0.0;
-    for (size_t i = waypoints.size()-1; i > 0; i--) {
+    for (size_t i = 1; i < waypoints.size(); i++) {
         totalDistance += math::hypot(
             waypoints[i].x - waypoints[i-1].x, waypoints[i].y - waypoints[i-1].y);
         distances.push_back(totalDistance);
