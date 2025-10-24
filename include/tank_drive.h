@@ -29,6 +29,7 @@ class TankDrive {
 	void turnToHeading(double targetHeadingDegrees);
 	void driveDistance(double distIn);
 	void driveToPoint(double targetX, double targetY);
+	void driveAlongPath(MotionProfile profile);
 
   private:
 	pros::MotorGroup leftMotorGroup;

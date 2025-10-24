@@ -22,6 +22,8 @@ TankDrive::TankDrive(DrivebaseConfig config, pros::Controller &ctrl)
 											config.autonConstants.kITurn,
 											config.autonConstants.kDTurn);
 
+	pidCtrlPath = new PIDController<double>(1, 0, 0); // TODO: tune path PID
+
 	odom = new DrivebaseOdometry(config.brainside, config.batteryside,
 								 config.gearset,
 								 config.autonConstants.trackWidthIn);
@@ -31,6 +33,7 @@ TankDrive::TankDrive(DrivebaseConfig config, pros::Controller &ctrl)
 TankDrive::~TankDrive() {
 	delete pidCtrlMove;
 	delete pidCtrlTurn;
+	delete pidCtrlPath;
 	delete setPoint;
 	delete currentTask;
 }
@@ -83,6 +86,38 @@ void TankDrive::runAuton() {
 
 void TankDrive::initAuton() {
 	currentTask = new pros::Task([this] { runAuton(); });
+}
+
+void TankDrive::driveAlongPath(MotionProfile profile) {
+	Pose currentPose;
+	Pose lastPose;
+	odom->getPose(&lastPose);
+
+	double currentVelocity = 0.0;
+	double lastTime = pros::millis();
+	while (true) {
+		odom->getPose(&currentPose);
+
+		// Calculate current velocity in some units per second
+		currentVelocity =
+			math::hypot(currentPose.x - lastPose.x,
+						currentPose.y - lastPose.y) /
+			((pros::millis() - lastTime) / 1000.0);
+
+		double maxMotorMag = (double)getInputExtremeForGearset(
+			(pros::motor_gearset_e)leftMotorGroup.get_gearing());
+
+		double targetVelocity = profile.getVelocityFromPosition(currentPose);
+		double calculatedPathPower = pidCtrlPath->compute(targetVelocity, currentVelocity);
+		calculatedPathPower = std::clamp(calculatedPathPower, -maxMotorMag, maxMotorMag);
+
+		// TODO: Add pure pursuit stuff here
+
+		leftMotorGroup.move(calculatedPathPower);
+		rightMotorGroup.move(calculatedPathPower);
+
+		pros::delay(20);
+	}
 }
 
 void TankDrive::driveToPose(Pose *targetPose) {
