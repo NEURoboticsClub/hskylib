@@ -13,7 +13,8 @@ TwoWheelImuOdometry::TwoWheelImuOdometry(
     wheelAngleDeg(wheelAngleDeg) {}
 
 void TwoWheelImuOdometry::reset() {
-	imu1.reset();
+   Odometry::reset();
+	  imu1.reset();
     imu2.reset();
     while (imu1.is_calibrating() || imu2.is_calibrating()) pros::delay(10);
     leftEncoder.reset_position();
@@ -25,11 +26,13 @@ void TwoWheelImuOdometry::reset() {
 void TwoWheelImuOdometry::updatePose() {
 	int32_t leftEncoderNewPos = leftEncoder.get_position();
 	int32_t rightEncoderNewPos = rightEncoder.get_position();
+
+  
 	double dL =
-		(((double)leftEncoderNewPos - (double)leftEncoderLastPos) / 36000.0) *
+		((static_cast<double>(leftEncoderNewPos) - static_cast<double>(leftEncoderLastPos)) / 36000.0) *
 		6.28318;
 	double dR =
-		(((double)rightEncoderNewPos - (double)rightEncoderLastPos) / 36000.0) *
+		((static_cast<double>(rightEncoderNewPos) - static_cast<double>(rightEncoderLastPos)) / 36000.0) *
 		6.28318;
     
     double thetaDeg = (imu1.get_rotation() + imu2.get_rotation()) / 2.0;
