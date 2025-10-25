@@ -1,4 +1,5 @@
 #include "motion_profile.h"
+#include <cmath>
 
 MotionProfile::MotionProfile(std::map<Pose, double> distanceMap,
         double totalDistance,

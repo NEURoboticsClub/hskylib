@@ -100,7 +100,7 @@ void TankDrive::driveAlongPath(MotionProfile profile) {
 
 		// Calculate current velocity in some units per second
 		currentVelocity =
-			math::hypot(currentPose.x - lastPose.x,
+			std::hypot(currentPose.x - lastPose.x,
 						currentPose.y - lastPose.y) /
 			((pros::millis() - lastTime) / 1000.0);
 

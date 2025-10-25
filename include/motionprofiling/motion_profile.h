@@ -1,3 +1,6 @@
+#include "pose.h"
+#include <map>
+
 /**
  * Represents a motion profile for a path
  */

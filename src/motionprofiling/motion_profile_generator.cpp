@@ -2,6 +2,9 @@
 #include "motion_profile.h"
 #include "pose.h"
 #include "math.h"
+#include <vector>
+#include <map>
+#include <cmath>
 
 MotionProfile MotionProfileGenerator::generateProfile(std::vector<Pose> waypoints, double maxVelocity, double acceleration) {
     std::vector<double> distances = {0.0};
