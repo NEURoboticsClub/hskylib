@@ -6,11 +6,11 @@ MotionProfile::MotionProfile(std::map<Pose, double> distanceMap,
         double endAccelerationDistance, 
         double startDecelerationDistance) {
 
-    this.distanceMap = distanceMap;
-    this.totalDistance = totalDistance;
-    this.maxVelocity = maxVelocity;
-    this.endAccelerationDistance = endAccelerationDistance;
-    this.startDecelerationDistance = startDecelerationDistance;
+    this->distanceMap = distanceMap;
+    this->totalDistance = totalDistance;
+    this->maxVelocity = maxVelocity;
+    this->endAccelerationDistance = endAccelerationDistance;
+    this->startDecelerationDistance = startDecelerationDistance;
 }
 
 double MotionProfile::getVelocityFromPosition(Pose pose) {
@@ -21,7 +21,7 @@ double MotionProfile::getVelocityFromPosition(Pose pose) {
     } else {
         double closestDistance = std::numeric_limits<double>::max();
         for (auto distancePair : distanceMap) {
-            double dist = math::hypot(
+            double dist = std::hypot(
                 pose.x - distancePair.first.x,
                 pose.y - distancePair.first.y);
             if (dist < closestDistance) {

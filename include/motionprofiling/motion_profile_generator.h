@@ -11,5 +11,5 @@ public:
      * @param acceleration The acceleration to be used in the motion profile.
      * @return A MotionProfile object representing the generated motion profile.
      */
-    static MotionProfile generateProfile(Pose[] waypoints, double maxVelocity, double acceleration);
+    static MotionProfile generateProfile(std::vector<Pose> waypoints, double maxVelocity, double acceleration);
 };

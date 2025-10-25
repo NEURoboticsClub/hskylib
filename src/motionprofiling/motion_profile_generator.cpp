@@ -3,13 +3,11 @@
 #include "pose.h"
 #include "math.h"
 
-MotionProfileGenerator::MotionProfileGenerator() {}
-
-MotionProfile MotionProfileGenerator::generateProfile(Pose[] waypoints, double maxVelocity, double acceleration) {
+MotionProfile MotionProfileGenerator::generateProfile(std::vector<Pose> waypoints, double maxVelocity, double acceleration) {
     std::vector<double> distances = {0.0};
     double totalDistance = 0.0;
     for (size_t i = 1; i < waypoints.size(); i++) {
-        totalDistance += math::hypot(
+        totalDistance += std::hypot(
             waypoints[i].x - waypoints[i-1].x, waypoints[i].y - waypoints[i-1].y);
         distances.push_back(totalDistance);
     }
