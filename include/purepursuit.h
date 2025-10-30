@@ -11,8 +11,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "tank_drive.h"   // Your tank drive interface
-#include "odometry.h"     // Provides Pose {x, y, theta}
+#include "tank_drive.h" 
+#include "odometry.h"     // needs to provide pose {x, y, theta}
 
 // Structure for a single path point
 struct PathPoint {
@@ -45,7 +45,7 @@ private:
     std::atomic<bool> running;
     std::thread controlThread;
 
-    // --- Internal helpers ---
+    // Internal helpers 
     void runLoop();
     std::vector<PathPoint> loadPathFromCSV(const std::string& filename);
     PathPoint findLookaheadPoint(const Pose& robotPose, double lookaheadDist);

@@ -61,7 +61,7 @@ std::vector<PathPoint> AsyncAdaptivePurePursuitController::loadPathFromCSV(const
         path[i].heading = std::atan2(dy, dx);
     }
 
-    // Assign nominal velocities
+    // Assign velocities
     for (auto &p : path)
         p.velocity = 1.0;  // 1 m/s default, tune later
 
@@ -105,9 +105,9 @@ double AsyncAdaptivePurePursuitController::clamp(double value, double minVal, do
 }
 
 void AsyncAdaptivePurePursuitController::runLoop() {
-    const double lookaheadDist = 0.25;  // meters, tune this
-    const double baseSpeed = 0.5;       // m/s, tune for your robot
-    const double trackWidth = 0.3;      // meters, tune for your drivetrain
+    const double lookaheadDist = 0.25;  // tune this
+    const double baseSpeed = 0.5;       // tune this
+    const double trackWidth = 0.3;      // tune this
 
     std::cout << "[PurePursuit] Starting control loop..." << std::endl;
 
