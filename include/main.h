@@ -42,6 +42,7 @@
 #include "subsystems.h"
 #include "tank_drive.h"
 #include "transport.h"
+#include "purepursuit.h"
 
 /**
  * You should add more #includes here

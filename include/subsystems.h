@@ -11,6 +11,7 @@
 #include "robot_config.h"
 #include "tank_drive.h"
 #include "transport.h"
+#include "purepursuit.h"
 
 /**
  * Subsystems are initialized here. All subsystems should take a configuration
