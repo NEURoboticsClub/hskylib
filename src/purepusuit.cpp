@@ -130,20 +130,3 @@ void AsyncAdaptivePurePursuitController::runLoop() {
     drive->tank(0, 0);
     std::cout << "[PurePursuit] Stopped." << std::endl;
 }
-🧭 Example usage
-cpp
-Copy code
-#include "AsyncAdaptivePurePursuitController.hpp"
-
-int main() {
-    TankDrive drive; // your implementation
-    auto odom = std::make_shared<Odometry>();
-
-    AsyncAdaptivePurePursuitController purePursuit(&drive, odom);
-    purePursuit.setPathFromCSV("/usd/test_path.csv");
-    purePursuit.start();
-
-    // Run for ~10 seconds
-    pros::delay(10000);
-    purePursuit.stop();
-}
