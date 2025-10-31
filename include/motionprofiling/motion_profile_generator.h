@@ -1,3 +1,10 @@
+#ifndef MOTION_PROFILE_GENERATOR_H
+#define MOTION_PROFILE_GENERATOR_H
+
+#include "motion_profile.h"
+#include "pose.h"
+#include <vector>
+
 /**
  * Generates a motion profile for a given set of parameters.
  */
@@ -13,3 +20,5 @@ public:
      */
     static MotionProfile generateProfile(std::vector<Pose> waypoints, double maxVelocity, double acceleration);
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef MOTION_PROFILE_H
+#define MOTION_PROFILE_H
+
 #include "pose.h"
 #include <map>
 
@@ -35,3 +38,5 @@ private:
     double endAccelerationDistance;
     double startDecelerationDistance;
 };
+
+#endif
