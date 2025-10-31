@@ -9,6 +9,7 @@
 #include "pose.h"
 #include "robot_config.h"
 #include "utils.h"
+#include "motionprofiling/motion_profile.h"
 
 /**
  * A tank drive drivebase. Contains functions for both manual and
@@ -29,6 +30,7 @@ class TankDrive {
 	void turnToHeading(double targetHeadingDegrees);
 	void driveDistance(double distIn);
 	void driveToPoint(double targetX, double targetY);
+	void driveAlongPath(MotionProfile profile);
 
   private:
 	pros::MotorGroup leftMotorGroup;
@@ -43,6 +45,7 @@ class TankDrive {
 	// PID Controllers
 	PIDController<Pose> *pidCtrlMove;
 	PIDController<double> *pidCtrlTurn;
+	PIDController<double> *pidCtrlPath;
 
 	// Drive control methods
 	void tankDrive();
